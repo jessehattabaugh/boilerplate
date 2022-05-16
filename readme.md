@@ -1,3 +1,9 @@
-# template
+# NAME
 
-boilerplate repo
+DESCRIPTION
+
+## Getting Started
+
+```bash
+npm install
+```
