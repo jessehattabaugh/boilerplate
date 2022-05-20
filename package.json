@@ -15,5 +15,6 @@
 	"scripts": {
 		"test": "npx cowsay nothing to test"
 	},
+	"type": "module",
 	"version": "0.0.0"
 }
