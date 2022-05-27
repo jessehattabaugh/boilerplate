@@ -4,6 +4,6 @@
 		"es2021": true,
 		"worker": true
 	},
-	"extends": "eslint:recommended",
+	"extends": ["eslint:recommended", "prettier"],
 	"sourceType": "module"
 }
