@@ -1,6 +1,6 @@
-# NAME
+# {{NAME}}
 
-DESCRIPTION
+{{DESCRIPTION}}
 
 ## Getting Started
 
