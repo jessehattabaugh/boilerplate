@@ -1,16 +1,16 @@
 {
 	"author": "Jesse Hattabaugh<jessehattabaugh@protonmail.com>",
 	"bugs": {
-		"url": "https://github.com/jessehattabaugh/NAME/issues"
+		"url": "https://github.com/jessehattabaugh/{{NAME}}/issues"
 	},
-	"description": "DESCRIPTION",
-	"homepage": "https://github.com/jessehattabaugh/NAME#readme",
+	"description": "{{DESCRIPTION}}",
+	"homepage": "https://github.com/jessehattabaugh/{{NAME}}#readme",
 	"license": "UNLICENSED",
-	"name": "NAME",
+	"name": "{{NAME}}",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jessehattabaugh/NAME.git"
+		"url": "git+https://github.com/jessehattabaugh/{{NAME}}.git"
 	},
 	"scripts": {
 		"test": "npx cowsay nothing to test"
