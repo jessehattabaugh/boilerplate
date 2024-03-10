@@ -1,20 +1,13 @@
 {
-	"author": "Jesse Hattabaugh<jessehattabaugh@protonmail.com>",
-	"bugs": {
-		"url": "https://github.com/jessehattabaugh/{{NAME}}/issues"
-	},
 	"description": "{{DESCRIPTION}}",
-	"homepage": "https://github.com/jessehattabaugh/{{NAME}}#readme",
+	"homepage": "{{URL}}",
 	"license": "UNLICENSED",
 	"name": "{{NAME}}",
 	"private": true,
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/jessehattabaugh/{{NAME}}.git"
-	},
 	"scripts": {
-		"test": "npx cowsay nothing to test"
+		"kill": "npx kill-port 3000",
+		"start": "npx serve ./public",
+		"test": "npx cowsay no tests... yet!"
 	},
-	"type": "module",
-	"version": "0.0.0"
+	"type": "module"
 }
