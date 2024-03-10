@@ -4,6 +4,4 @@
 
 ## Getting Started
 
-```bash
-npm install
-```
+Install dependencies by running `npm install`, then start the development server with `npm start`.
