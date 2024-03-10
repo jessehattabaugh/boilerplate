@@ -1,5 +1,9 @@
 {
 	"description": "{{DESCRIPTION}}",
+	"devDependencies": {
+		"eslint": "latest",
+		"eslint-config-prettier": "latest"
+	},
 	"homepage": "{{URL}}",
 	"license": "UNLICENSED",
 	"name": "{{NAME}}",
