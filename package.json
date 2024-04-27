@@ -6,7 +6,7 @@
 	},
 	"homepage": "{{URL}}",
 	"license": "UNLICENSED",
-	"name": "{{ repository.name}}",
+	"name": "{{ repository.name }}",
 	"private": true,
 	"scripts": {
 		"kill": "npx kill-port 3000",
