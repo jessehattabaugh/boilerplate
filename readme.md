@@ -1,6 +1,6 @@
-# {{NAME}}
+# {{ repository.name}}
 
-{{DESCRIPTION}}
+{{ repository.description }}
 
 ## Getting Started
 
