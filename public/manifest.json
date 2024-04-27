@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "name": "{{NAME}}",
+    "name": "{{ repository.name }}",
     "short_name": "{{SHORT_NAME}}",
     "start_url": "/?start_url",
     "theme_color": "#ffff00"

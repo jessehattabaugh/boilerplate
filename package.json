@@ -1,12 +1,12 @@
 {
-	"description": "{{DESCRIPTION}}",
+	"description": "{{ repository.description }}",
 	"devDependencies": {
 		"eslint": "latest",
 		"eslint-config-prettier": "latest"
 	},
 	"homepage": "{{URL}}",
 	"license": "UNLICENSED",
-	"name": "{{NAME}}",
+	"name": "{{ repository.name }}",
 	"private": true,
 	"scripts": {
 		"kill": "npx kill-port 3000",
