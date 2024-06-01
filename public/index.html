@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{{ repository.name }}</title>
-        <link rel="manifest" href="/manifest.json">
-        <link rel="stylesheet" href="/styles/all.css">
-        <link rel="stylesheet" media="screen and (prefers-color-scheme: light)" href="/styles/light.css">
-        <link rel="stylesheet" media="screen and (min-width: 30em)" href="/styles/wide.css">
-        <script type="module" async src="/scripts/async.js"></script>
-        <script type="module" defer src="/scripts/defer.js"></script>
-    </head>
-    <body>
-        <header>
-            <h1>{{ repository.name }}</h1>
-        </header>
-        <main>
-            <h2>{{ repository.description }}</h2>
-        </main>
-        <footer>
-            <small>&copy; 2024</small>
-        </footer>
-    </body>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{{ repository.name }}</title>
+	<link rel="manifest" href="/manifest.json">
+	<link rel="stylesheet" href="/styles/all.css">
+	<link rel="stylesheet" media="screen and (prefers-color-scheme: light)" href="/styles/light.css">
+	<link rel="stylesheet" media="screen and (min-width: 30em)" href="/styles/wide.css">
+	<script type="module" async src="/scripts/async.js"></script>
+	<script type="module" defer src="/scripts/defer.js"></script>
+</head>
+
+<body>
+	<header>
+		<h1>{{ repository.name }}</h1>
+	</header>
+	<main>
+		<h2>{{ repository.description }}</h2>
+	</main>
+	<footer>
+		<small>&copy; 2024</small>
+	</footer>
+</body>
+
 </html>
