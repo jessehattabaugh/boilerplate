@@ -1,8 +1,11 @@
 {
 	"description": "{{ repository.description }}",
 	"devDependencies": {
+		"@eslint/compat": "latest",
+		"@eslint/eslintrc": "latest",
+		"@eslint/js": "latest",
 		"eslint": "latest",
-		"eslint-config-prettier": "latest"
+		"globals": "latest"
 	},
 	"homepage": "{{URL}}",
 	"license": "UNLICENSED",
