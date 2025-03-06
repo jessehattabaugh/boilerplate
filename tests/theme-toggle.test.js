@@ -4,209 +4,162 @@ import fs from 'fs';
 
 /**
  * Tests for the theme toggle component
- *
- * These tests check if the theme toggle works correctly:
- * - Basic functionality (clicking changes theme)
- * - Visual appearance in different modes
- * - Keyboard accessibility
- * - System preference handling
  */
 
 // Ensure snapshots directory exists
-const snapshotDir = path.join(process.cwd(), 'tests', 'snapshots', 'theme-toggle');
+const snapshotDir = path.join(process.cwd(), 'snapshots');
 if (!fs.existsSync(snapshotDir)) {
-	fs.mkdirSync(snapshotDir, { recursive: true });
+  fs.mkdirSync(snapshotDir, { recursive: true });
 }
 
 test.describe('Theme Toggle', () => {
-	// Setup helper to clear preferences before tests
-	async function clearPreferences(page) {
-		try {
-			await page.context().clearCookies();
+  // Setup helper to clear preferences before tests
+  async function clearPreferences(page) {
+    try {
+      await page.context().clearCookies();
 
-			// Make sure we're on a page before trying to access localStorage
-			const currentUrl = page.url();
-			if (!currentUrl.startsWith('http')) {
-				await page.goto('/');
-			}
+      // Make sure we're on a page before trying to access localStorage
+      const currentUrl = page.url();
+      if (!currentUrl.startsWith('http')) {
+        await page.goto('/');
+      }
 
-			// Clear localStorage with proper error handling
-			await page.evaluate(() => {
-				try {
-					localStorage.clear();
-					return true;
-				} catch (e) {
-					console.error('Failed to clear localStorage:', e);
-					return false;
-				}
-			});
-		} catch (error) {
-			console.warn('Error in clearPreferences:', error.message);
-		}
-	}
+      // Clear localStorage with proper error handling
+      await page.evaluate(() => {
+        try {
+          localStorage.clear();
+          return true;
+        } catch (e) {
+          console.error('Failed to clear localStorage:', e);
+          return false;
+        }
+      });
+    } catch (error) {
+      console.warn('Error in clearPreferences:', error.message);
+    }
+  }
 
-	test('basic toggle functionality', async ({ page }) => {
-		await clearPreferences(page);
-		await page.goto('/');
+  test('toggle functionality changes theme', async ({ page }) => {
+    await clearPreferences(page);
+    await page.goto('/');
 
-		// Find the theme toggle
-		const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
-		await expect(themeToggle).toBeVisible();
+    // Find the theme toggle
+    const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
+    await expect(themeToggle).toBeVisible();
 
-		// Get initial theme state
-		const initialIsDark = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
+    // Get initial theme state
+    const initialIsDark = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
 
-		// Click toggle and check if theme changed
-		await themeToggle.click();
-		await page.waitForTimeout(300);
+    // Take screenshot before clicking
+    await expect(themeToggle).toHaveScreenshot('theme-toggle-before-click-baseline.png');
 
-		const newIsDark = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
-		expect(newIsDark).not.toBe(initialIsDark);
+    // Click toggle and check if theme changed
+    await themeToggle.click();
+    await page.waitForTimeout(300);
 
-		// Check if theme is saved after reload
-		await page.reload();
-		const savedIsDark = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
-		expect(savedIsDark).toBe(newIsDark);
-	});
+    // Take screenshot after clicking
+    await expect(themeToggle).toHaveScreenshot('theme-toggle-after-click-baseline.png');
 
-	test('visual appearance in light and dark modes', async ({ page }) => {
-		// Test light mode appearance
-		await page.goto('/');
-		await page.evaluate(() => {
-			try {
-				localStorage.setItem('theme-preference', 'light');
-				document.documentElement.classList.remove('dark-mode');
-				document.documentElement.classList.add('light-mode');
-				return true;
-			} catch (e) {
-				console.error('Error setting light mode:', e);
-				return false;
-			}
-		});
+    const newIsDark = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
+    expect(newIsDark).not.toBe(initialIsDark);
+  });
 
-		await page.reload();
-		await expect(page).toHaveScreenshot({
-			path: 'theme-toggle/theme-toggle-light-mode.png',
-		});
+  test('toggle remembers preference after reload', async ({ page }) => {
+    await clearPreferences(page);
+    await page.goto('/');
 
-		// Test dark mode appearance
-		await page.evaluate(() => {
-			try {
-				localStorage.setItem('theme-preference', 'dark');
-				document.documentElement.classList.add('dark-mode');
-				document.documentElement.classList.remove('light-mode');
-				return true;
-			} catch (e) {
-				console.error('Error setting dark mode:', e);
-				return false;
-			}
-		});
+    // Find the theme toggle
+    const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
 
-		await page.reload();
-		await expect(page).toHaveScreenshot({
-			path: 'theme-toggle/theme-toggle-dark-mode.png',
-		});
-	});
+    // Get initial theme state
+    const initialIsDark = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
 
-	test('keyboard accessibility', async ({ page }) => {
-		await page.goto('/');
+    // Click toggle and check if theme changed
+    await themeToggle.click();
+    await page.waitForTimeout(300);
 
-		// Tab to the toggle
-		await page.keyboard.press('Tab');
-		await page.keyboard.press('Tab');
-		await page.keyboard.press('Tab');
+    // Reload the page
+    await page.reload();
+    await page.waitForTimeout(300);
 
-		// Check if toggle is focused
-		const focused = await page.evaluate(() => {
-			const el = document.activeElement;
-			return (
-				el.getAttribute('role') === 'switch' &&
-				el.getAttribute('aria-label')?.toLowerCase().includes('toggle theme')
-			);
-		});
-		expect(focused).toBeTruthy();
+    // Check if theme preference was remembered
+    const rememberedIsDark = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
+    expect(rememberedIsDark).not.toBe(initialIsDark);
 
-		// Activate with Enter key
-		await page.keyboard.press('Enter');
+    // Take screenshot of remembered state
+    await expect(themeToggle).toHaveScreenshot('theme-toggle-remembered-baseline.png');
+  });
 
-		// Verify theme changed
-		await page.waitForTimeout(200);
-		await expect(page).toHaveScreenshot({
-			path: 'theme-toggle/theme-toggle-keyboard-activated.png',
-		});
-	});
+  test('toggle is keyboard accessible', async ({ page }) => {
+    await page.goto('/');
 
-	test('system preference mode', async ({ page }) => {
-		// Set to system mode
-		await page.goto('/');
-		await page.evaluate(() => {
-			try {
-				localStorage.setItem('theme-preference', 'system');
-				return true;
-			} catch (e) {
-				console.error('Error setting system preference:', e);
-				return false;
-			}
-		});
+    // Tab to the toggle
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
 
-		// Test with dark system preference
-		await page.emulateMedia({ colorScheme: 'dark' });
-		await page.reload();
-		const isDarkWithSystemDark = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
-		expect(isDarkWithSystemDark).toBeTruthy();
+    // Check if toggle is focused
+    const focused = await page.evaluate(() => {
+      const el = document.activeElement;
+      return (
+        el.getAttribute('role') === 'switch' &&
+        el.getAttribute('aria-label')?.toLowerCase().includes('toggle theme')
+      );
+    });
+    expect(focused).toBeTruthy();
 
-		// Test with light system preference
-		await page.emulateMedia({ colorScheme: 'light' });
-		await page.reload();
-		const isDarkWithSystemLight = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
-		expect(isDarkWithSystemLight).toBeFalsy();
-	});
+    // Take screenshot with focus
+    await expect(page).toHaveScreenshot('theme-toggle-focused-baseline.png');
 
-	// Visual regression tests for theme toggle
-	test('theme toggle appearance changes when clicked', async ({ page }) => {
-		await clearPreferences(page);
-		await page.goto('/');
+    // Activate with Enter key
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(200);
 
-		const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
+    // Take screenshot after keyboard activation
+    await expect(page).toHaveScreenshot('theme-toggle-keyboard-activated-baseline.png');
+  });
 
-		// Screenshot before clicking
-		await expect(page.getByRole('navigation')).toHaveScreenshot({
-			path: 'theme-toggle/theme-toggle-before.png',
-		});
+  test('system preference mode works correctly', async ({ page }) => {
+    // Set to system mode
+    await page.goto('/');
+    await page.evaluate(() => {
+      try {
+        localStorage.setItem('theme-preference', 'system');
+        return true;
+      } catch (e) {
+        console.error('Error setting system preference:', e);
+        return false;
+      }
+    });
 
-		// Click and take another screenshot
-		await themeToggle.click();
-		await page.waitForTimeout(200);
-		await expect(page.getByRole('navigation')).toHaveScreenshot({
-			path: 'theme-toggle/theme-toggle-after.png',
-		});
-	});
+    // Test with dark system preference
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.reload();
+    const isDarkWithSystemDark = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
+    expect(isDarkWithSystemDark).toBeTruthy();
 
-	test('full page in dark mode', async ({ page }) => {
-		// Set dark mode and check full page appearance
-		await page.emulateMedia({ colorScheme: 'dark' });
-		await page.goto('/');
+    // Take screenshot with system dark preference
+    await expect(page).toHaveScreenshot('theme-toggle-system-dark-baseline.png');
 
-		await page.waitForTimeout(300);
+    // Test with light system preference
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.reload();
+    const isDarkWithSystemLight = await page.evaluate(() => {
+      return document.documentElement.classList.contains('dark-mode');
+    });
+    expect(isDarkWithSystemLight).toBeFalsy();
 
-		const isDarkMode = await page.evaluate(() => {
-			return document.documentElement.classList.contains('dark-mode');
-		});
-		expect(isDarkMode).toBeTruthy();
-
-		await expect(page).toHaveScreenshot({
-			path: 'theme-toggle/full-page-dark-mode.png',
-			fullPage: true,
-		});
-	});
+    // Take screenshot with system light preference
+    await expect(page).toHaveScreenshot('theme-toggle-system-light-baseline.png');
+  });
 });

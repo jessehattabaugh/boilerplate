@@ -43,10 +43,9 @@ Thumbs.db
 /blob-report/
 /playwright/.cache/
 
-# Test snapshots - exclude new snapshots but keep baseline snapshots
-/tests/snapshots/**/*-actual.png
-/tests/snapshots/**/*-diff.png
-/tests/snapshots/**/*-expected.png
+# Test snapshots - only keep baseline snapshots
+/snapshots/*
+!/snapshots/*baseline*
 
 # Keep the screenshots directory structure but not temporary files
 /public/screenshots/temp_*.png

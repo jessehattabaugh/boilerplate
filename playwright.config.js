@@ -22,15 +22,26 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	reporter: [['html', { open: 'never' }], ['list']],
 
-	// Configure the snapshot directory
-	snapshotDir: './tests/snapshots',
+	// Configure the flat snapshot directory
+	snapshotDir: './snapshots',
 
 	// Configure expectations
 	expect: {
 		// Configure screenshot comparison
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
+			// Use a naming convention that includes "baseline" for base snapshots
+			snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
 		},
+		// Set performance thresholds
+		toPassPerformanceThreshold: {
+			// Core Web Vitals thresholds
+			firstContentfulPaint: 2000, // 2 seconds
+			largestContentfulPaint: 2500, // 2.5 seconds
+			timeToInteractive: 3500, // 3.5 seconds
+			cumulativeLayoutShift: 0.1, // Google's recommended maximum
+			totalBlockingTime: 200, // 200 milliseconds
+		}
 	},
 
 	use: {
