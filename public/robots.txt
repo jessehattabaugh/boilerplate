@@ -1,0 +1,11 @@
+# www.robotstxt.org
+
+User-agent: *
+Allow: /
+
+# Block specific crawlers
+User-agent: GPTBot
+Disallow: /private/
+
+# Sitemaps
+Sitemap: https://example.com/sitemap.xml

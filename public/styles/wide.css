@@ -1,5 +1,49 @@
 /* styles for wide screens */
 body {
-	max-width: 30em;
+	max-width: 60em;
 	margin: auto;
+	padding: 2em;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+nav ul {
+	display: flex;
+	gap: 2em;
+}
+
+main {
+	padding: 2em;
+}
+
+/* Use CSS grid for complex layouts on wider screens */
+.grid-layout {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	grid-gap: 2rem;
+}
+
+/* Container query example */
+@container main-content (min-width: 40em) {
+	.container-responsive {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 2rem;
+	}
+}
+
+/* Apply hover effects only on devices that support hover */
+@media (hover: hover) {
+	a:hover {
+		text-decoration: underline;
+		color: var(--color-secondary);
+	}
+
+	button:hover {
+		filter: brightness(1.1);
+	}
 }

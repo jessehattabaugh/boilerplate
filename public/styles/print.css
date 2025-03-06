@@ -1,0 +1,82 @@
+/* Print styles */
+@media print {
+	/* Reset all colors to black on white for better printing */
+	* {
+		background-color: #fff !important;
+		color: #000 !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+		filter: none !important;
+		-ms-filter: none !important;
+		font-family: serif !important;
+	}
+
+	/* Hide unnecessary elements when printing */
+	header nav,
+	footer,
+	.cookie-consent,
+	button:not([data-print]),
+	[data-no-print] {
+		display: none !important;
+	}
+
+	/* Layout adjustments */
+	body {
+		padding: 0 !important;
+		margin: 0 !important;
+		width: 100% !important;
+		max-width: none !important;
+	}
+
+	main {
+		width: 100% !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	/* Show URLs after links */
+	a[href]:after {
+		content: ' (' attr(href) ')';
+		font-size: 0.8em;
+		font-weight: normal;
+	}
+
+	/* Don't show URLs for internal or javascript links */
+	a[href^='/']:after,
+	a[href^='javascript:']:after,
+	a[href^='#']:after {
+		content: '';
+	}
+
+	/* Page breaks */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		page-break-after: avoid;
+		page-break-inside: avoid;
+	}
+
+	img {
+		page-break-inside: avoid;
+		max-width: 100% !important;
+	}
+
+	p,
+	blockquote,
+	dl,
+	figure,
+	table {
+		page-break-inside: avoid;
+	}
+
+	/* Manage orphans and widows */
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+}

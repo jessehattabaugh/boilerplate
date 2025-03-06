@@ -1,5 +1,13 @@
-/* styles for psychos */
+/* styles for light mode */
+:root {
+	--color-text: #121212;
+	--color-background: #ffffff;
+	--color-primary: #6200ee;
+	--color-secondary: #03dac5;
+	--color-accent: #b00020;
+}
+
 html {
-	color: black;
-	background-color: white;
+	color: var(--color-text);
+	background-color: var(--color-background);
 }

@@ -1,20 +1,41 @@
 {
-	"description": "{{ repository.description }}",
+	"description": "A modern web boilerplate",
 	"devDependencies": {
 		"@eslint/compat": "latest",
 		"@eslint/eslintrc": "latest",
 		"@eslint/js": "latest",
 		"eslint": "latest",
-		"globals": "latest"
+		"globals": "latest",
+		"autoprefixer": "latest",
+		"cssnano": "latest",
+		"lighthouse": "latest",
+		"postcss": "latest",
+		"postcss-cli": "latest",
+		"serve": "latest",
+		"rimraf": "latest",
+		"http-server": "latest",
+		"npm-run-all": "latest"
 	},
-	"homepage": "{{URL}}",
+	"homepage": "https://example.com",
 	"license": "UNLICENSED",
-	"name": "{{ repository.name }}",
+	"name": "web-boilerplate",
 	"private": true,
 	"scripts": {
 		"kill": "npx kill-port 3000",
 		"start": "npx serve ./public",
-		"test": "npx cowsay no tests... yet!"
+		"start:https": "npx http-server ./public --ssl --cert ./localhost.crt --key ./localhost.key -o",
+		"test": "npx lighthouse http://localhost:3000 --view",
+		"lint": "eslint .",
+		"clean": "rimraf public/styles/*.min.css",
+		"css": "postcss public/styles/*.css --dir public/styles/min/ --ext .min.css",
+		"build": "npm-run-all clean css",
+		"analyze": "lighthouse http://localhost:3000 --output json --output html --output-path ./lighthouse-report.html",
+		"configure": "node scripts/configure.js"
 	},
-	"type": "module"
+	"type": "module",
+	"browserslist": [
+		"> 1%",
+		"not dead",
+		"not IE 11"
+	]
 }

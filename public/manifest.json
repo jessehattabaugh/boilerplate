@@ -1,20 +1,46 @@
 {
-	"background_color": "#000000",
+	"background_color": "#121212",
 	"display": "standalone",
 	"icons": [
 		{
 			"sizes": "192x192",
 			"src": "/icon/192.png",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any maskable"
 		},
 		{
 			"sizes": "512x512",
 			"src": "/icon/512.png",
-			"type": "image/png"
+			"type": "image/png",
+			"purpose": "any maskable"
 		}
 	],
-	"name": "{{ repository.name }}",
-	"short_name": "{{SHORT_NAME}}",
-	"start_url": "/?start_url",
-	"theme_color": "#ffff00"
+	"name": "Web Boilerplate",
+	"short_name": "Boilerplate",
+	"start_url": "/?source=pwa",
+	"theme_color": "#bb86fc",
+	"description": "A modern web boilerplate",
+	"categories": [
+		"web"
+	],
+	"orientation": "any",
+	"scope": "/",
+	"display_override": [
+		"window-controls-overlay",
+		"standalone"
+	],
+	"screenshots": [
+		{
+			"src": "/screenshots/desktop.png",
+			"sizes": "1280x800",
+			"type": "image/png",
+			"form_factor": "wide"
+		},
+		{
+			"src": "/screenshots/mobile.png",
+			"sizes": "750x1334",
+			"type": "image/png",
+			"form_factor": "narrow"
+		}
+	]
 }
