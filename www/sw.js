@@ -1,3 +1,11 @@
+/* eslint-env serviceworker */
+/**
+ * @typedef {import('workbox-routing')} WorkboxRouting
+ * @typedef {import('workbox-strategies')} WorkboxStrategies
+ * @typedef {import('workbox-expiration')} WorkboxExpiration
+ * @typedef {import('workbox-precaching')} WorkboxPrecaching
+ */
+
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.0/workbox-sw.js');
 
 // Use workbox for better caching strategies
@@ -92,16 +100,16 @@ registerRoute(
 const offlineFallbackPage = '/offline.html';
 
 // Install and configure offline page
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
 	event.waitUntil(
-		caches.open('offline').then((cache) => {
+		caches.open('offline').then(cache => {
 			return cache.add(offlineFallbackPage);
 		}),
 	);
 });
 
 // Provide offline fallback
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
 	if (event.request.mode === 'navigate') {
 		event.respondWith(
 			fetch(event.request).catch(() => {

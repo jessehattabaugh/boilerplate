@@ -5,8 +5,9 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
-		"target": "esnext"
+		"target": "esnext",
+		"typeRoots": ["./node_modules/@types", "./types"]
 	},
 	"exclude": ["node_modules"],
-	"include": ["./types.d.ts"]
+	"include": ["./types.d.ts", "./types/**/*.d.ts", "./www/**/*.js"]
 }

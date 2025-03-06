@@ -24,6 +24,7 @@ export default [
 				...globals.node,
 				...globals.serviceworker,
 				...globals.worker,
+				workbox: 'readonly'
 			},
 
 			ecmaVersion: 'latest',
@@ -80,4 +81,13 @@ export default [
 			'require-atomic-updates': 'warn',
 		},
 	},
+	// Add specific configuration for service worker files
+	{
+		files: ['**/sw.js'],
+		languageOptions: {
+			globals: {
+				workbox: 'readonly'
+			}
+		}
+	}
 ];
