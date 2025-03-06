@@ -41,7 +41,6 @@ export default [
 			'accessor-pairs': 'warn',
 			'array-callback-return': 'warn',
 			'arrow-body-style': ['warn', 'always'],
-			'arrow-parens': ['warn', 'as-needed'],
 			camelcase: 'warn',
 			curly: 'warn',
 			'consistent-return': 'warn',

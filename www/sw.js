@@ -29,6 +29,13 @@ precacheAndRoute([
 	{ url: '/styles/transitions.css', revision: '1' },
 	{ url: '/styles/print.css', revision: '1' },
 
+	// Components styles
+	{ url: '/components/theme-toggle.css', revision: '1' },
+	{ url: '/components/site-header.css', revision: '1' },
+	{ url: '/components/site-footer.css', revision: '1' },
+	{ url: '/components/image-carousel.css', revision: '1' },
+	{ url: '/components/carousel-item.css', revision: '1' },
+
 	// Core scripts
 	{ url: '/scripts/async.js', revision: '1' },
 	{ url: '/scripts/defer.js', revision: '1' },
@@ -39,6 +46,8 @@ precacheAndRoute([
 	{ url: '/components/theme-toggle.js', revision: '1' },
 	{ url: '/components/site-header.js', revision: '1' },
 	{ url: '/components/site-footer.js', revision: '1' },
+	{ url: '/components/image-carousel.js', revision: '1' },
+	{ url: '/components/carousel-item.js', revision: '1' },
 
 	// Configuration files
 	{ url: '/manifest.json', revision: '1' },

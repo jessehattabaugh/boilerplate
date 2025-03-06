@@ -244,69 +244,7 @@ export class ThemeToggle extends HTMLElement {
 	 */
 	render() {
 		this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          --toggle-bg: rgba(0, 0, 0, 0.1);
-          --toggle-color: inherit;
-          --toggle-hover: rgba(0, 0, 0, 0.15);
-          --toggle-active: #4f46e5;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          :host {
-            --toggle-bg: rgba(255, 255, 255, 0.1);
-            --toggle-hover: rgba(255, 255, 255, 0.15);
-          }
-        }
-
-        button {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 0.75rem;
-          background-color: var(--toggle-bg);
-          color: var(--toggle-color);
-          border: none;
-          border-radius: 9999px;
-          cursor: pointer;
-          transition: background-color 0.2s ease;
-          font-size: 0.875rem;
-        }
-
-        button:hover {
-          background-color: var(--toggle-hover);
-        }
-
-        button:focus-visible {
-          outline: 3px solid var(--toggle-active);
-          outline-offset: 2px;
-          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
-        }
-
-        .icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .label {
-          font-size: 0.875rem;
-        }
-
-        /* Hide the label on small screens */
-        @media screen and (max-width: 30em) {
-          .label {
-            display: none;
-          }
-        }
-
-        /* Respect user's motion preferences */
-        @media (prefers-reduced-motion: reduce) {
-          button {
-            transition: none;
-          }
-        }
-      </style>
+      <link rel="stylesheet" href="/components/theme-toggle.css">
 
       <button
         aria-label="Toggle theme"

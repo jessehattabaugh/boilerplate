@@ -10,8 +10,7 @@ import { fileURLToPath } from 'url';
 // Get the directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// Update the screenshots directory to be inside www instead of public
-const screenshotsDir = path.join(__dirname, '..', 'www', 'screenshots');
+const screenshotsDir = path.join(__dirname, '..', 'public', 'screenshots');
 
 // Screenshot configurations
 const SCREENSHOTS = [
@@ -60,7 +59,7 @@ async function takeScreenshots() {
 		const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 		await Promise.all(
-			SCREENSHOTS.map(async (config) => {
+			SCREENSHOTS.map(async config => {
 				console.log(`Generating ${config.name}...`);
 
 				// Create a page with the specified viewport
@@ -119,7 +118,7 @@ async function takeScreenshots() {
  * Update the manifest.json file with the correct screenshot paths
  */
 async function updateManifest() {
-	const manifestPath = path.join(__dirname, '..', 'www', 'manifest.json');
+	const manifestPath = path.join(__dirname, '..', 'public', 'manifest.json');
 
 	try {
 		// Read the existing manifest
