@@ -51,10 +51,7 @@ async function waitForServer() {
 			return false;
 		}
 
-		const [serverReady] = await Promise.all([
-			isServerReady(),
-			setTimeout(RETRY_DELAY)
-		]);
+		const [serverReady] = await Promise.all([isServerReady(), setTimeout(RETRY_DELAY)]);
 
 		if (serverReady) {
 			console.log('✅ Server is ready');

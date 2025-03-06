@@ -73,7 +73,7 @@ async function renameSnapshotsToBaselines() {
 
 async function main() {
 	try {
-		 // Ensure snapshots directory exists
+		// Ensure snapshots directory exists
 		try {
 			await fs.access(SNAPSHOTS_DIR);
 		} catch {

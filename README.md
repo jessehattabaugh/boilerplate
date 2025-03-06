@@ -16,6 +16,7 @@ This boilerplate includes modern web features:
 -   ♿ Accessibility features including prefers-reduced-motion support
 -   🔍 SEO optimized
 -   🧪 End-to-end testing with Playwright
+-   📊 Performance testing and monitoring with baselines
 
 ## Getting Started
 
@@ -32,6 +33,7 @@ This boilerplate includes modern web features:
 -   `npm run test` - Run Playwright end-to-end tests
 -   `npm run test:ui` - Run Playwright tests with UI for debugging
 -   `npm run test:update-snapshots` - Update visual test baselines
+-   `npm run test:update-performance` - Update performance baselines
 -   `npm run analyze` - Analyze the site with Lighthouse
 
 ## Web Components
@@ -110,7 +112,7 @@ The site respects the user's motion preferences:
 
 ## Testing
 
-## Testing Philosophy
+### Testing Philosophy
 
 This boilerplate embraces a practical testing philosophy:
 
@@ -128,6 +130,7 @@ The boilerplate uses Playwright for comprehensive end-to-end testing which:
 -   Verifies behavior across **different devices and viewports**
 -   Ensures **accessibility standards** are met
 -   Provides **visual regression testing** to catch unexpected UI changes
+-   Monitors **performance metrics** against established baselines
 
 #### Included Test Types
 
@@ -135,6 +138,7 @@ The boilerplate uses Playwright for comprehensive end-to-end testing which:
 -   **Visual regression tests**: Catch unintended visual changes
 -   **Accessibility tests**: Ensure the site works for all users
 -   **Mobile responsiveness**: Test behavior on different devices
+-   **Performance tests**: Monitor core web vitals and prevent regressions
 
 #### Running Tests
 
@@ -147,6 +151,9 @@ npm run test:staging
 
 # Update visual snapshots after intentional changes
 npm run test:update-snapshots
+
+# Update performance baselines after optimizations
+npm run test:update-performance
 
 # Debug tests interactively with UI
 npm run test:ui
@@ -170,14 +177,51 @@ When making design changes, update the visual reference snapshots:
 npm run test:update-snapshots
 ```
 
-#### Writing Effective Tests
+### Performance Testing
+
+This boilerplate includes a comprehensive performance testing system:
+
+#### How it works
+
+1. **Performance baselines**: Each component and page has baseline metrics saved in the `/performance` directory
+2. **Automated testing**: Tests run on each build and compare current performance against baselines
+3. **Threshold alerts**: Tests fail if performance degrades beyond configurable thresholds
+4. **Lighthouse integration**: For index pages, full Lighthouse audits are run and results tracked
+
+#### Performance metrics tracked
+
+-   **Core Web Vitals**: First Contentful Paint (FCP), Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS)
+-   **Interaction metrics**: Total Blocking Time (TBT), Time to Interactive (TTI)
+-   **Navigation metrics**: Time to First Byte (TTFB), DOM Load, Full Page Load
+-   **Component-level metrics**: Toggle operation time, memory usage, etc.
+
+#### Managing performance baselines
+
+After intentional performance changes or optimizations, update the baselines:
+
+```bash
+# Update performance baselines
+npm run test:update-performance
+```
+
+This will run all tests with the baseline update flag and save current metrics as the new baseline.
+
+#### Performance test file organization
+
+-   Performance tests are integrated into component-specific test files
+-   Each test file measures specific metrics relevant to that component
+-   The utils/performance-utils.js module provides shared testing utilities
+-   Baseline metrics are stored in the /performance directory as JSON files
+
+### Writing Effective Tests
 
 When adding new features, write Playwright tests that:
 
 1. Focus on **user journeys** rather than implementation details
 2. Use **accessibility-friendly selectors** like `getByRole` and `getByLabel`
 3. Test across **multiple browsers and devices**
-4. Include **visual regression** tests for UI components
+4. Include **visual regression** and **performance** tests
+5. Verify **accessibility** requirements are met
 
 Example of a good test case:
 
@@ -202,6 +246,10 @@ test('user can toggle theme', async ({ page }) => {
 		document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
 	);
 	expect(newTheme).not.toBe(initialTheme);
+
+	// Check performance metrics for the operation
+	const metrics = await getBrowserPerformanceMetrics(page);
+	await assertPerformanceBaseline('theme-toggle-operation', metrics);
 });
 ```
 
@@ -219,15 +267,15 @@ This project uses Playwright's visual comparison testing to ensure UI consistenc
 
 ### Managing snapshots
 
--   **Update snapshots:** After intentional UI changes, run `npm run test:update-visual`
+-   **Update snapshots:** After intentional UI changes, run `npm run test:update-snapshots`
 -   **Clean temporary snapshots:** Remove diff and actual files with `npm run test:clean-snapshots`
 -   **View differences:** Check the Playwright report for side-by-side comparison of visual changes
 
 ### Snapshot organization
 
--   Baseline snapshots are stored in `tests/snapshots/`
--   Each test file has its own subfolder to organize screenshots
+-   Baseline snapshots are stored in `/snapshots/` with the naming convention `*-baseline.png`
 -   Only baseline snapshots are committed to git
+-   The snapshot directory uses a flat structure for simplicity
 
 ### Best practices
 

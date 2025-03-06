@@ -16,7 +16,7 @@ async function cleanSnapshots() {
 		// Check if snapshots directory exists
 		try {
 			await fs.access(SNAPSHOTS_DIR);
-		} catch {
+		} catch (err) {
 			console.log(`Creating snapshots directory at ${SNAPSHOTS_DIR}`);
 			await fs.mkdir(SNAPSHOTS_DIR, { recursive: true });
 			return;
@@ -31,13 +31,11 @@ async function cleanSnapshots() {
 		});
 
 		// Delete each file that's not a baseline
-		await Promise.all(
-			filesToRemove.map(async (file) => {
-				const filePath = path.join(SNAPSHOTS_DIR, file);
-				await fs.unlink(filePath);
-				console.log(`Deleted: ${file}`);
-			}),
-		);
+		for (const file of filesToRemove) {
+			const filePath = path.join(SNAPSHOTS_DIR, file);
+			await fs.unlink(filePath);
+			console.log(`Deleted: ${file}`);
+		}
 
 		console.log('Snapshot cleanup complete!');
 
@@ -45,7 +43,7 @@ async function cleanSnapshots() {
 		try {
 			execSync('git checkout -- ./snapshots/*baseline*', { stdio: 'inherit' });
 			console.log('Restored any missing baseline files from git');
-		} catch {
+		} catch (gitError) {
 			// It's okay if this fails, could be that there are no git-tracked baselines yet
 			console.log('Note: No baseline files needed to be restored from git');
 		}

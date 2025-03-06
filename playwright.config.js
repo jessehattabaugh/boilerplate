@@ -41,7 +41,7 @@ export default defineConfig({
 			timeToInteractive: 3500, // 3.5 seconds
 			cumulativeLayoutShift: 0.1, // Google's recommended maximum
 			totalBlockingTime: 200, // 200 milliseconds
-		}
+		},
 	},
 
 	use: {
