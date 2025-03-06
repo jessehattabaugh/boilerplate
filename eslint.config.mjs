@@ -24,7 +24,7 @@ export default [
 				...globals.node,
 				...globals.serviceworker,
 				...globals.worker,
-				workbox: 'readonly'
+				workbox: 'readonly',
 			},
 
 			ecmaVersion: 'latest',
@@ -86,8 +86,8 @@ export default [
 		files: ['**/sw.js'],
 		languageOptions: {
 			globals: {
-				workbox: 'readonly'
-			}
-		}
-	}
+				workbox: 'readonly',
+			},
+		},
+	},
 ];

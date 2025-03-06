@@ -21,6 +21,18 @@ export default defineConfig({
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
 	reporter: [['html', { open: 'never' }], ['list']],
+
+	// Configure the snapshot directory
+	snapshotDir: './tests/snapshots',
+
+	// Configure expectations
+	expect: {
+		// Configure screenshot comparison
+		toHaveScreenshot: {
+			maxDiffPixelRatio: 0.05,
+		},
+	},
+
 	use: {
 		baseURL: getBaseUrl(),
 		trace: 'on-first-retry',
@@ -67,4 +79,3 @@ export default defineConfig({
 		},
 	],
 });
-

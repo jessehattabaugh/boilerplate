@@ -19,6 +19,7 @@ precacheAndRoute([
 	// HTML pages
 	{ url: '/', revision: '1' },
 	{ url: '/index.html', revision: '1' },
+	{ url: '/about.html', revision: '1' },
 	{ url: '/offline.html', revision: '1' },
 
 	// Core styles
@@ -36,6 +37,8 @@ precacheAndRoute([
 
 	// Web components
 	{ url: '/components/theme-toggle.js', revision: '1' },
+	{ url: '/components/site-header.js', revision: '1' },
+	{ url: '/components/site-footer.js', revision: '1' },
 
 	// Configuration files
 	{ url: '/manifest.json', revision: '1' },
@@ -100,16 +103,16 @@ registerRoute(
 const offlineFallbackPage = '/offline.html';
 
 // Install and configure offline page
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
 	event.waitUntil(
-		caches.open('offline').then(cache => {
+		caches.open('offline').then((cache) => {
 			return cache.add(offlineFallbackPage);
 		}),
 	);
 });
 
 // Provide offline fallback
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
 	if (event.request.mode === 'navigate') {
 		event.respondWith(
 			fetch(event.request).catch(() => {

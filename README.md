@@ -207,6 +207,34 @@ test('user can toggle theme', async ({ page }) => {
 
 See the `tests` directory for more examples.
 
+## Visual Testing
+
+This project uses Playwright's visual comparison testing to ensure UI consistency:
+
+### How snapshot testing works
+
+1. The first time tests run, baseline screenshots are captured
+2. On subsequent runs, new screenshots are compared against the baselines
+3. Tests fail if there are visual differences beyond the threshold
+
+### Managing snapshots
+
+-   **Update snapshots:** After intentional UI changes, run `npm run test:update-visual`
+-   **Clean temporary snapshots:** Remove diff and actual files with `npm run test:clean-snapshots`
+-   **View differences:** Check the Playwright report for side-by-side comparison of visual changes
+
+### Snapshot organization
+
+-   Baseline snapshots are stored in `tests/snapshots/`
+-   Each test file has its own subfolder to organize screenshots
+-   Only baseline snapshots are committed to git
+
+### Best practices
+
+-   Keep snapshot regions focused on specific UI elements when possible
+-   Use full page snapshots sparingly to reduce false positives
+-   Consider device-specific variations in your tests
+
 ## PWA Screenshots
 
 The boilerplate includes tools for generating PWA screenshots for the web app manifest:
