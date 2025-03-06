@@ -6,7 +6,6 @@
 		"@playwright/test": "latest",
 		"eslint": "latest",
 		"globals": "latest",
-		"http-server": "latest",
 		"lighthouse": "latest",
 		"npm-run-all": "latest",
 		"serve": "latest"
@@ -16,7 +15,6 @@
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "npx serve ./public",
-		"start:https": "npx http-server ./public --ssl --cert ./localhost.crt --key ./localhost.key -o",
 		"test": "playwright test",
 		"test:staging": "cross-env TEST_ENV=staging playwright test",
 		"test:ui": "playwright test --ui",

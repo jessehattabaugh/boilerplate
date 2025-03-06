@@ -3,24 +3,15 @@
 
 <head>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=" 1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="" data-site-description>
 	<meta name="theme-color" content="#000000">
 	<meta name="color-scheme" content="dark light">
-	<!-- Enable View Transitions API -->
 	<meta name="view-transition" content="same-origin">
 
-	<!-- Security headers -->
-	<meta http-equiv="Content-Security-Policy"
-		content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'">
-	<meta http-equiv="X-Content-Type-Options" content="nosniff">
-	<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-	<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
-
-	<title data-site-title>Website</title>
+	<title>Website</title>
 	<link rel="manifest" href="/manifest.json">
 	<link rel="icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" href="/icon/192.png">
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="/styles/all.css">
@@ -31,13 +22,14 @@
 	<!-- Scripts -->
 	<script type="module" async src="/scripts/async.js"></script>
 	<script type="module" defer src="/scripts/defer.js"></script>
+	<script type="module" defer src="/scripts/transitions.js"></script>
 	<script type="module" defer src="/scripts/config.js"></script>
-	<script type="module" defer src="/components/theme-toggle.js"></script>
+	<script type="module" defer src="/components/index.js"></script>
 </head>
 
 <body>
 	<header view-transition-name="site-header">
-		<h1 data-site-title view-transition-name="site-title">Website</h1>
+		<h1 view-transition-name="site-title">Website</h1>
 		<nav view-transition-name="site-nav" aria-label="Main navigation">
 			<ul>
 				<li><a href="/">Home</a></li>
@@ -48,7 +40,7 @@
 	</header>
 
 	<main view-transition-name="main-content">
-		<h2 data-site-description view-transition-name="page-title">A modern web boilerplate</h2>
+		<h2 view-transition-name="page-title">A modern web boilerplate</h2>
 		<div id="app" view-transition-name="app-container">
 			<!-- Example image with proper alt text -->
 			<img src="placeholder.jpg" alt="Placeholder image" width="200" height="200">
@@ -58,7 +50,7 @@
 	</main>
 
 	<footer view-transition-name="site-footer">
-		<small>&copy; <span id="current-year">2024</span></small>
+		<small>&copy; <span id="current-year">2025</span></small>
 	</footer>
 </body>
 

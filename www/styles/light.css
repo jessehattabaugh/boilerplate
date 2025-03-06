@@ -5,11 +5,6 @@
 	--color-primary: #6200ee;
 	--color-secondary: #03dac5;
 	--color-accent: #b00020;
-
-	/* Theme toggle light mode variables */
-	--theme-toggle-bg: rgba(0, 0, 0, 0.08);
-	--theme-toggle-hover: rgba(0, 0, 0, 0.12);
-	--theme-toggle-color: var(--color-text);
 }
 
 html {

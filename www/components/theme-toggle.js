@@ -2,7 +2,7 @@
  * Theme Toggle Web Component
  * A toggle switch for dark/light mode with system preference detection
  */
-class ThemeToggle extends HTMLElement {
+export class ThemeToggle extends HTMLElement {
 	// Key for storing preference in localStorage
 	#storageKey = 'theme-preference';
 
@@ -246,16 +246,16 @@ class ThemeToggle extends HTMLElement {
 		this.shadowRoot.innerHTML = `
       <style>
         :host {
-          --toggle-bg: var(--theme-toggle-bg, rgba(0, 0, 0, 0.1));
-          --toggle-color: var(--theme-toggle-color, inherit);
-          --toggle-hover: var(--theme-toggle-hover, rgba(0, 0, 0, 0.15));
-          --toggle-active: var(--theme-toggle-active, var(--cc-primary, #4f46e5));
+          --toggle-bg: rgba(0, 0, 0, 0.1);
+          --toggle-color: inherit;
+          --toggle-hover: rgba(0, 0, 0, 0.15);
+          --toggle-active: #4f46e5;
         }
 
         @media (prefers-color-scheme: dark) {
           :host {
-            --toggle-bg: var(--theme-toggle-dark-bg, rgba(255, 255, 255, 0.1));
-            --toggle-hover: var(--theme-toggle-dark-hover, rgba(255, 255, 255, 0.15));
+            --toggle-bg: rgba(255, 255, 255, 0.1);
+            --toggle-hover: rgba(255, 255, 255, 0.15);
           }
         }
 
@@ -297,6 +297,13 @@ class ThemeToggle extends HTMLElement {
         @media screen and (max-width: 30em) {
           .label {
             display: none;
+          }
+        }
+
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+          button {
+            transition: none;
           }
         }
       </style>
@@ -348,6 +355,3 @@ class ThemeToggle extends HTMLElement {
 		}
 	}
 }
-
-// Define the custom element
-customElements.define('theme-toggle', ThemeToggle);

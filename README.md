@@ -29,17 +29,18 @@ This boilerplate includes modern web features:
 -   `npm run start:https` - Start with HTTPS for testing secure features
 -   `npm run build` - Build for production (optimizes CSS)
 -   `npm run lint` - Run ESLint for code quality checks
--   `npm run test` - Run Lighthouse tests
--   `npm run test:e2e` - Run Playwright end-to-end tests
--   `npm run test:e2e:ui` - Run Playwright tests with UI for debugging
--   `npm run test:e2e:update-snapshots` - Update visual test baselines
+-   `npm run test` - Run Playwright end-to-end tests
+-   `npm run test:ui` - Run Playwright tests with UI for debugging
+-   `npm run test:update-snapshots` - Update visual test baselines
 -   `npm run analyze` - Analyze the site with Lighthouse
 
 ## Web Components
 
+The boilerplate includes modular web components that are encapsulated and easily replaceable:
+
 ### Theme Toggle
 
-A theme toggle component that allows users to switch between light, dark, and system themes:
+A toggle switch component for controlling light, dark, and system themes:
 
 ```html
 <theme-toggle></theme-toggle>
@@ -50,27 +51,40 @@ A theme toggle component that allows users to switch between light, dark, and sy
 -   **Multiple theme modes:** Supports light, dark, and system preference modes
 -   **Preference persistence:** Remembers user's theme choice across sessions
 -   **System preference detection:** Automatically follows system theme when in auto mode
--   **CSS variable integration:** Uses CSS variables for seamless theme switching
+-   **Self-contained styles:** All styles are encapsulated within the component
 -   **Responsive design:** Adapts to different screen sizes
 
 #### JavaScript API:
 
 ```javascript
+// Import the component class if you want to use it programmatically
+import { ThemeToggle } from './components/theme-toggle.js';
+
+// Or use the already registered custom element
+const toggle = document.querySelector('theme-toggle');
+
 // Get the current theme
-const currentTheme = document.querySelector('theme-toggle').getTheme();
+const currentTheme = toggle.getTheme();
 
 // Check if dark mode is active
-const isDark = document.querySelector('theme-toggle').isDarkMode();
+const isDark = toggle.isDarkMode();
 
 // Set theme programmatically
-document.querySelector('theme-toggle').setTheme('dark'); // Options: 'light', 'dark', 'system'
+toggle.setTheme('dark'); // Options: 'light', 'dark', 'system'
 
 // Listen for theme changes
-document.querySelector('theme-toggle').addEventListener('themeChange', (e) => {
+toggle.addEventListener('themeChange', (e) => {
 	console.log('Theme changed:', e.detail.theme);
 	console.log('Is dark mode:', e.detail.isDark);
 });
 ```
+
+#### Customizing or Replacing:
+
+The theme toggle component is designed to be easily customizable or replaceable:
+
+1. Modify the existing component at `/components/theme-toggle.js`
+2. Or create your own component and update the registration in `/components/index.js`
 
 ## Accessibility Features
 

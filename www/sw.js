@@ -17,12 +17,15 @@ precacheAndRoute([
 	{ url: '/scripts/async.js', revision: '1' },
 	{ url: '/scripts/defer.js', revision: '1' },
 	{ url: '/scripts/transitions.js', revision: '1' },
+	{ url: '/scripts/config.js', revision: '1' },
 	{ url: '/manifest.json', revision: '1' },
 ]);
 
 // Cache page navigations with Network-first strategy
 registerRoute(
-	({ request }) => request.mode === 'navigate',
+	({ request }) => {
+		return request.mode === 'navigate';
+	},
 	new NetworkFirst({
 		cacheName: 'pages',
 		plugins: [
@@ -36,7 +39,9 @@ registerRoute(
 
 // Cache CSS and JS with Stale-While-Revalidate strategy
 registerRoute(
-	({ request }) => request.destination === 'style' || request.destination === 'script',
+	({ request }) => {
+		return request.destination === 'style' || request.destination === 'script';
+	},
 	new StaleWhileRevalidate({
 		cacheName: 'assets',
 		plugins: [
@@ -50,7 +55,9 @@ registerRoute(
 
 // Cache images with Cache-first strategy
 registerRoute(
-	({ request }) => request.destination === 'image',
+	({ request }) => {
+		return request.destination === 'image';
+	},
 	new CacheFirst({
 		cacheName: 'images',
 		plugins: [

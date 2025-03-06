@@ -5,21 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Initialize behaviors
 	setupIntersectionObservers();
 	setupBotProtection();
-	setupThemeToggle();
 	setupMotionPreferences();
-});
 
-/**
- * Set up theme toggle interaction
- */
-function setupThemeToggle() {
-	const themeToggle = document.querySelector('theme-toggle');
-	if (themeToggle) {
-		themeToggle.addEventListener('themeChange', (e) => {
-			console.debug('Theme changed:', e.detail);
-		});
-	}
-}
+	// Listen for theme change events
+	document.addEventListener('themeChange', (e) => {
+		console.debug('Theme changed:', e.detail);
+	});
+});
 
 /**
  * Setup motion preference detection
@@ -33,7 +25,7 @@ function setupMotionPreferences() {
 	}
 
 	// Listen for changes to the prefers-reduced-motion media query
-	window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', event => {
+	window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
 		document.documentElement.classList.toggle('reduced-motion', event.matches);
 		console.debug('Motion preference changed:', event.matches ? 'reduced' : 'no-preference');
 	});
