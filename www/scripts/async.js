@@ -15,7 +15,7 @@ console.debug('Feature detection:', modernFeatures);
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', async () => {
 		try {
-			const registration = await navigator.serviceWorker.register('/scripts/sw.js', {
+			const registration = await navigator.serviceWorker.register('/sw.js', {
 				scope: '/',
 			});
 			console.debug('👨‍🏭® service worker registered', registration.scope);

@@ -6,19 +6,38 @@ const { CacheFirst, NetworkFirst, StaleWhileRevalidate } = workbox.strategies;
 const { ExpirationPlugin } = workbox.expiration;
 const { precacheAndRoute } = workbox.precaching;
 
-// Precache essential resources
+// Precache essential resources organized by type
 precacheAndRoute([
+	// HTML pages
 	{ url: '/', revision: '1' },
 	{ url: '/index.html', revision: '1' },
+	{ url: '/offline.html', revision: '1' },
+
+	// Core styles
 	{ url: '/styles/all.css', revision: '1' },
 	{ url: '/styles/light.css', revision: '1' },
 	{ url: '/styles/wide.css', revision: '1' },
 	{ url: '/styles/transitions.css', revision: '1' },
+	{ url: '/styles/print.css', revision: '1' },
+
+	// Core scripts
 	{ url: '/scripts/async.js', revision: '1' },
 	{ url: '/scripts/defer.js', revision: '1' },
 	{ url: '/scripts/transitions.js', revision: '1' },
 	{ url: '/scripts/config.js', revision: '1' },
+
+	// Web components
+	{ url: '/components/theme-toggle.js', revision: '1' },
+
+	// Configuration files
 	{ url: '/manifest.json', revision: '1' },
+	{ url: '/robots.txt', revision: '1' },
+	{ url: '/humans.txt', revision: '1' },
+
+	// Images
+	{ url: '/icon/192.png', revision: '1' },
+	{ url: '/icon/512.png', revision: '1' },
+	{ url: '/favicon.ico', revision: '1' },
 ]);
 
 // Cache page navigations with Network-first strategy
@@ -92,4 +111,25 @@ self.addEventListener('fetch', (event) => {
 	}
 });
 
-console.debug('👋👷‍♂️ Enhanced service worker installed');
+// Cache other potential assets that might be used
+registerRoute(
+	({ request }) => {
+		return (
+			request.destination === 'font' ||
+			request.destination === 'audio' ||
+			request.destination === 'video' ||
+			request.url.includes('/screenshots/')
+		);
+	},
+	new CacheFirst({
+		cacheName: 'other-assets',
+		plugins: [
+			new ExpirationPlugin({
+				maxEntries: 30,
+				maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+			}),
+		],
+	}),
+);
+
+console.debug('👋👷‍♂️ Enhanced service worker installed with comprehensive precaching');
