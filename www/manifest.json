@@ -1,0 +1,46 @@
+{
+	"background_color": "#121212",
+	"categories": [
+		"web"
+	],
+	"description": "A modern web boilerplate",
+	"display": "standalone",
+	"display_override": [
+		"window-controls-overlay",
+		"standalone"
+	],
+	"icons": [
+		{
+			"purpose": "any maskable",
+			"sizes": "192x192",
+			"src": "/icon/192.png",
+			"type": "image/png"
+		},
+		{
+			"purpose": "any maskable",
+			"sizes": "512x512",
+			"src": "/icon/512.png",
+			"type": "image/png"
+		}
+	],
+	"name": "Web Boilerplate",
+	"orientation": "any",
+	"scope": "/",
+	"screenshots": [
+		{
+			"form_factor": "wide",
+			"sizes": "1280x800",
+			"src": "/screenshots/desktop.png",
+			"type": "image/png"
+		},
+		{
+			"form_factor": "narrow",
+			"sizes": "750x1334",
+			"src": "/screenshots/mobile.png",
+			"type": "image/png"
+		}
+	],
+	"short_name": "Boilerplate",
+	"start_url": "/?source=pwa",
+	"theme_color": "#bb86fc"
+}

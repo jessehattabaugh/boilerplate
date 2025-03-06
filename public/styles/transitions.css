@@ -73,17 +73,13 @@
 	animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
 }
 
-/* Custom Popup API styles for cookie consent */
-cookie-consent {
-	position: fixed;
-	bottom: 1rem;
-	right: 1rem;
-	z-index: 1000;
-}
+/* Add responsive animations that respect reduced motion preferences */
+@media (prefers-reduced-motion: no-preference) {
+	.fade-in {
+		animation: fade-in 0.5s ease-in-out forwards;
+	}
 
-/* Override display for browsers that don't support popup */
-@supports not selector(::backdrop) {
-	cookie-consent:not([open]) {
-		display: none;
+	.slide-in {
+		animation: slide-from-right 0.3s ease-out forwards;
 	}
 }

@@ -9,24 +9,25 @@
 		"http-server": "latest",
 		"lighthouse": "latest",
 		"npm-run-all": "latest",
-		"rimraf": "latest",
 		"serve": "latest"
 	},
 	"scripts": {
 		"analyze": "lighthouse http://localhost:3000 --output json --output html --output-path ./lighthouse-report.html",
-		"build": "npm-run-all clean",
-		"clean": "rimraf public/styles/*.min.css",
-		"configure": "node scripts/configure.js",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "npx serve ./public",
 		"start:https": "npx http-server ./public --ssl --cert ./localhost.crt --key ./localhost.key -o",
-		"test": "npx lighthouse http://localhost:3000 --view",
-		"test:e2e": "playwright test",
-		"test:e2e:staging": "cross-env TEST_ENV=staging playwright test",
-		"test:e2e:ui": "playwright test --ui",
-		"test:e2e:update-snapshots": "playwright test --update-snapshots",
-		"test:a11y": "playwright test accessibility.test.js"
+		"test": "playwright test",
+		"test:staging": "cross-env TEST_ENV=staging playwright test",
+		"test:ui": "playwright test --ui",
+		"test:update-snapshots": "playwright test --update-snapshots",
+		"test:debug": "playwright test --debug",
+		"test:prod": "cross-env TEST_ENV=production playwright test --project=chromium",
+		"test:report": "playwright show-report",
+		"test:generate": "playwright codegen http://localhost:3000",
+		"test:theme": "playwright test theme-toggle.test.js --project=chromium",
+		"screenshots": "node scripts/generate-screenshots.js",
+		"screenshots:prod": "cross-env BASE_URL=https://your-production-url.com node scripts/generate-screenshots.js"
 	},
 	"type": "module"
 }

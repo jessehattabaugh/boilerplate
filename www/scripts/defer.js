@@ -33,7 +33,7 @@ function setupMotionPreferences() {
 	}
 
 	// Listen for changes to the prefers-reduced-motion media query
-	window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
+	window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', event => {
 		document.documentElement.classList.toggle('reduced-motion', event.matches);
 		console.debug('Motion preference changed:', event.matches ? 'reduced' : 'no-preference');
 	});

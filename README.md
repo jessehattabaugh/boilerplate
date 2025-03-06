@@ -10,11 +10,10 @@ This boilerplate includes modern web features:
 -   🚀 View Transitions API for smooth page transitions
 -   🔄 Service Worker with workbox for offline support
 -   🌓 Dark/light theme support with auto detection
--   🍪 GDPR-compliant cookie consent dialog as a web component using Popup API
 -   🤖 Simple bot protection for forms
 -   📱 Fully responsive with container queries
 -   🔒 Enhanced security headers
--   ♿ Accessibility features
+-   ♿ Accessibility features including prefers-reduced-motion support
 -   🔍 SEO optimized
 -   🧪 End-to-end testing with Playwright
 
@@ -37,42 +36,6 @@ This boilerplate includes modern web features:
 -   `npm run analyze` - Analyze the site with Lighthouse
 
 ## Web Components
-
-### Cookie Consent Dialog
-
-The boilerplate includes a GDPR-compliant cookie consent dialog implemented as a web component that leverages the modern Popup API:
-
-```html
-<cookie-consent
-	popup
-	privacy-policy-url="/privacy.html"
-	necessary-cookies="session,csrf"
-	optional-cookies="analytics,preferences"
->
-</cookie-consent>
-```
-
-#### Features:
-
--   **Popup API integration:** Uses the native HTML `popup` attribute for better accessibility and mobile UX
--   **Customizable appearance:** Styling can be modified through CSS variables
--   **GDPR compliant:** Allows users to accept necessary cookies only or all cookies
--   **Preference persistence:** Remembers user choices across sessions
--   **Event-driven API:** Emits events when preferences change
-
-#### JavaScript API:
-
-```javascript
-// Check if a specific cookie category is allowed
-if (document.querySelector('cookie-consent').isAllowed('analytics')) {
-	// Initialize analytics
-}
-
-// Listen for preference changes
-document.querySelector('cookie-consent').addEventListener('preferencesChanged', (e) => {
-	console.log('New cookie preferences:', e.detail);
-});
-```
 
 ### Theme Toggle
 
@@ -109,54 +72,147 @@ document.querySelector('theme-toggle').addEventListener('themeChange', (e) => {
 });
 ```
 
+## Accessibility Features
+
+This boilerplate includes several accessibility enhancements:
+
+### Reduced Motion Support
+
+The site respects the user's motion preferences:
+
+-   Uses the `prefers-reduced-motion` media query to disable animations and transitions
+-   Provides alternative experiences for users who prefer reduced motion
+-   Disables View Transitions for users with motion sensitivity
+-   JavaScript animation logic is motion-preference aware
+
+```css
+/* Example of how animations respect user preferences */
+@media (prefers-reduced-motion: no-preference) {
+	.animate-element {
+		transition: transform 0.3s ease;
+	}
+}
+```
+
 ## Testing
 
-### End-to-End Testing
+## Testing Philosophy
 
-The boilerplate uses Playwright for end-to-end testing which provides:
+This boilerplate embraces a practical testing philosophy:
 
--   **Visual regression testing:** Compares screenshots to detect visual changes
--   **Cross-browser testing:** Tests across Chromium, Firefox, and WebKit
--   **Mobile simulation:** Tests mobile viewports and behaviors
--   **Accessibility testing:** Ensures the site meets accessibility standards
+1. **Production is the ultimate test** - Real users on real devices are the true validation
+2. **Automated browser testing** against staging environments is the next best thing
+3. **Local browser testing** during development provides immediate feedback
 
-### Accessibility Testing
+We deliberately avoid "mock-heavy" unit or integration tests that test abstractions rather than real user experiences.
 
-Accessibility is a first-class citizen in our testing approach:
+### End-to-End Testing with Playwright
 
--   **Built-in accessibility testing:** Uses Playwright's accessibility-focused selectors like getByRole and getByLabel
--   **Keyboard navigation testing:** Ensures all interactive elements can be accessed and activated via keyboard
--   **Screen reader friendly:** Tests use the same selectors that screen readers would use
--   **Alt text verification:** Ensures all images have appropriate alt text
--   **Semantic HTML testing:** Verifies proper use of ARIA attributes and semantic HTML elements
+The boilerplate uses Playwright for comprehensive end-to-end testing which:
 
-Our tests are intentionally designed to select elements the same way a user would interact with them, especially users of assistive technologies. Instead of using implementation details like CSS selectors or test IDs, we use:
+-   Tests your application in **real browsers** (Chromium, Firefox, WebKit)
+-   Verifies behavior across **different devices and viewports**
+-   Ensures **accessibility standards** are met
+-   Provides **visual regression testing** to catch unexpected UI changes
 
--   `getByRole` - to find elements by their ARIA role
--   `getByLabel` - to find form elements by their associated label
--   `getByText` - to find elements by their visible text content
--   `getByAltText` - to find images by their alt text
+#### Included Test Types
 
-This approach not only creates more resilient tests, but also ensures our application remains accessible as it evolves.
+-   **Functional tests**: Verify features work as expected
+-   **Visual regression tests**: Catch unintended visual changes
+-   **Accessibility tests**: Ensure the site works for all users
+-   **Mobile responsiveness**: Test behavior on different devices
 
-### Running Tests
+#### Running Tests
 
 ```bash
-# Run tests against local environment
-npm run test:e2e
+# Quick test during development
+npm run test
 
-# Run tests against staging environment
-npm run test:e2e:staging
+# Test against staging environment (closest to production)
+npm run test:staging
 
 # Update visual snapshots after intentional changes
-npm run test:e2e:update-snapshots
+npm run test:update-snapshots
 
-# Debug tests with UI
-npm run test:e2e:ui
+# Debug tests interactively with UI
+npm run test:ui
 
-# Run accessibility-specific tests
-npm run test:a11y
+# Run just the theme toggle visual tests
+npm run test:theme
 ```
+
+#### Visual Regression Testing
+
+The boilerplate includes visual regression tests that verify UI components maintain their expected appearance:
+
+-   **Theme Toggle**: Tests verify the toggle functions correctly in all states
+-   **Dark/Light Mode**: Screenshots are compared across theme changes to ensure proper styling
+-   **Responsive Design**: Visual tests run across multiple viewport sizes
+
+When making design changes, update the visual reference snapshots:
+
+```bash
+# Update visual snapshots after intentional UI changes
+npm run test:update-snapshots
+```
+
+#### Writing Effective Tests
+
+When adding new features, write Playwright tests that:
+
+1. Focus on **user journeys** rather than implementation details
+2. Use **accessibility-friendly selectors** like `getByRole` and `getByLabel`
+3. Test across **multiple browsers and devices**
+4. Include **visual regression** tests for UI components
+
+Example of a good test case:
+
+```javascript
+test('user can toggle theme', async ({ page }) => {
+	await page.goto('/');
+
+	// Find element by its accessible role
+	const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
+
+	// Verify initial state
+	await expect(themeToggle).toBeVisible();
+	const initialTheme = await page.evaluate(() =>
+		document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
+	);
+
+	// Perform action
+	await themeToggle.click();
+
+	// Verify result
+	const newTheme = await page.evaluate(() =>
+		document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
+	);
+	expect(newTheme).not.toBe(initialTheme);
+});
+```
+
+See the `tests` directory for more examples.
+
+## PWA Screenshots
+
+The boilerplate includes tools for generating PWA screenshots for the web app manifest:
+
+```bash
+# Generate screenshots from local development server
+npm run screenshots
+
+# Generate screenshots from production site
+npm run screenshots:prod
+```
+
+These screenshots are used in the `manifest.json` file and help create better installation experiences when users add your PWA to their home screen.
+
+The script automatically captures:
+
+-   Desktop screenshot (1280x800)
+-   Mobile screenshot (750x1334) with proper device scaling
+
+Screenshots are saved to `/public/screenshots/` and the manifest.json is automatically updated.
 
 ## Best Practices
 
@@ -169,6 +225,7 @@ This boilerplate follows these best practices:
 -   Accessibility (WCAG compliance)
 -   Keyboard navigability
 -   Screen reader compatibility
+-   Reduced motion support
 
 ## Customization
 

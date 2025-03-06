@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Get base URL from environment variable or use default
@@ -68,5 +68,3 @@ export default defineConfig({
 	],
 });
 
-// Import device presets
-import { devices } from '@playwright/test';

@@ -42,3 +42,6 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Keep the screenshots directory structure but not temporary files
+/public/screenshots/temp_*.png

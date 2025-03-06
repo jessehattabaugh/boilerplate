@@ -101,9 +101,8 @@ class ThemeToggle extends HTMLElement {
 	/**
 	 * Handle system preference change
 	 * @private
-	 * @param {MediaQueryListEvent} event - The change event
 	 */
-	#handleSystemPreferenceChange(event) {
+	#handleSystemPreferenceChange() {
 		if (this.#currentTheme === this.#themes.system) {
 			this.#applyTheme();
 			this.#updateToggleState();
@@ -177,7 +176,9 @@ class ThemeToggle extends HTMLElement {
 	 */
 	#updateToggleState() {
 		const toggle = this.shadowRoot.querySelector('button');
-		if (!toggle) return;
+		if (!toggle) {
+			return;
+		}
 
 		const icon = toggle.querySelector('.icon');
 		const label = toggle.querySelector('.label');
