@@ -34,7 +34,7 @@ test.describe('Visual regression tests', () => {
 
 		// Verify dark mode class is applied
 		const isDarkMode = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode')
+			document.documentElement.classList.contains('dark-mode'),
 		);
 		expect(isDarkMode).toBeTruthy();
 
@@ -72,7 +72,7 @@ test.describe('Visual regression tests', () => {
 				tagName: el.tagName,
 				text: el.textContent,
 				role: el.getAttribute('role'),
-				ariaLabel: el.getAttribute('aria-label')
+				ariaLabel: el.getAttribute('aria-label'),
 			};
 		});
 

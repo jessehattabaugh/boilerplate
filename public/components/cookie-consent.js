@@ -3,220 +3,233 @@
  * A GDPR-compliant cookie consent dialog that uses the Popup API
  */
 class CookieConsent extends HTMLElement {
-  #preferences = {
-    necessary: true, // Always true
-    analytics: false,
-    preferences: false,
-    marketing: false
-  };
+	#preferences = {
+		necessary: true, // Always true
+		analytics: false,
+		preferences: false,
+		marketing: false,
+	};
 
-  #storageKey = 'cookie-preferences';
-  #resolvePromise = null;
-  #consentPromise = null;
+	#storageKey = 'cookie-preferences';
+	#resolvePromise = null;
+	#consentPromise = null;
 
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.#consentPromise = new Promise(resolve => {
-      this.#resolvePromise = resolve;
-    });
+	constructor() {
+		super();
+		this.attachShadow({ mode: 'open' });
+		this.#consentPromise = new Promise((resolve) => {
+			this.#resolvePromise = resolve;
+		});
 
-    // Load saved preferences if available
-    this.#loadPreferences();
-  }
+		// Load saved preferences if available
+		this.#loadPreferences();
+	}
 
-  connectedCallback() {
-    // Use the popup attribute for native popup behavior
-    if (!this.hasAttribute('popup') && 'popover' in document.createElement('div')) {
-      this.setAttribute('popup', '');
-    }
+	connectedCallback() {
+		// Use the popup attribute for native popup behavior
+		if (!this.hasAttribute('popup') && 'popover' in document.createElement('div')) {
+			this.setAttribute('popup', '');
+		}
 
-    // Initialize component if preferences aren't set
-    if (!this.#hasPreferencesStored()) {
-      this.render();
+		// Initialize component if preferences aren't set
+		if (!this.#hasPreferencesStored()) {
+			this.render();
 
-      // Show popup after a short delay
-      setTimeout(() => {
-        if ('showPopover' in this) {
-          this.showPopover();
-        } else {
-          this.style.display = 'block';
-        }
-      }, 1000);
-    } else {
-      // Emit loaded event with stored preferences
-      this.dispatchEvent(new CustomEvent('preferencesLoaded', {
-        detail: { ...this.#preferences },
-        bubbles: true
-      }));
-    }
-  }
+			// Show popup after a short delay
+			setTimeout(() => {
+				if ('showPopover' in this) {
+					this.showPopover();
+				} else {
+					this.style.display = 'block';
+				}
+			}, 1000);
+		} else {
+			// Emit loaded event with stored preferences
+			this.dispatchEvent(
+				new CustomEvent('preferencesLoaded', {
+					detail: { ...this.#preferences },
+					bubbles: true,
+				}),
+			);
+		}
+	}
 
-  disconnectedCallback() {
-    this.shadowRoot.querySelector('#accept-all')?.removeEventListener('click', this.#handleAcceptAll);
-    this.shadowRoot.querySelector('#accept-necessary')?.removeEventListener('click', this.#handleAcceptNecessary);
-    this.shadowRoot.querySelector('#customize')?.removeEventListener('click', this.#handleCustomize);
-    this.shadowRoot.querySelector('#save-preferences')?.removeEventListener('click', this.#handleSavePreferences);
-  }
+	disconnectedCallback() {
+		this.shadowRoot
+			.querySelector('#accept-all')
+			?.removeEventListener('click', this.#handleAcceptAll);
+		this.shadowRoot
+			.querySelector('#accept-necessary')
+			?.removeEventListener('click', this.#handleAcceptNecessary);
+		this.shadowRoot
+			.querySelector('#customize')
+			?.removeEventListener('click', this.#handleCustomize);
+		this.shadowRoot
+			.querySelector('#save-preferences')
+			?.removeEventListener('click', this.#handleSavePreferences);
+	}
 
-  static get observedAttributes() {
-    return ['privacy-policy-url', 'necessary-cookies', 'optional-cookies'];
-  }
+	static get observedAttributes() {
+		return ['privacy-policy-url', 'necessary-cookies', 'optional-cookies'];
+	}
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue && this.isConnected) {
-      this.render();
-    }
-  }
+	attributeChangedCallback(name, oldValue, newValue) {
+		if (oldValue !== newValue && this.isConnected) {
+			this.render();
+		}
+	}
 
-  /**
-   * Check if a cookie category is allowed
-   * @param {string} category - The cookie category to check
-   * @returns {boolean} - Whether the cookie is allowed
-   */
-  isAllowed(category) {
-    return this.#preferences[category] || false;
-  }
+	/**
+	 * Check if a cookie category is allowed
+	 * @param {string} category - The cookie category to check
+	 * @returns {boolean} - Whether the cookie is allowed
+	 */
+	isAllowed(category) {
+		return this.#preferences[category] || false;
+	}
 
-  /**
-   * Get the consent promise that resolves when preferences are set
-   * @returns {Promise} - Promise that resolves with preferences
-   */
-  get consentPromise() {
-    return this.#consentPromise;
-  }
+	/**
+	 * Get the consent promise that resolves when preferences are set
+	 * @returns {Promise} - Promise that resolves with preferences
+	 */
+	get consentPromise() {
+		return this.#consentPromise;
+	}
 
-  /**
-   * Save preferences and hide the popup
-   * @private
-   */
-  #savePreferences(preferences) {
-    this.#preferences = {
-      ...this.#preferences,
-      ...preferences
-    };
+	/**
+	 * Save preferences and hide the popup
+	 * @private
+	 */
+	#savePreferences(preferences) {
+		this.#preferences = {
+			...this.#preferences,
+			...preferences,
+		};
 
-    // Store in localStorage
-    localStorage.setItem(this.#storageKey, JSON.stringify(this.#preferences));
+		// Store in localStorage
+		localStorage.setItem(this.#storageKey, JSON.stringify(this.#preferences));
 
-    // Hide the popup
-    if ('hidePopover' in this) {
-      this.hidePopover();
-    } else {
-      this.style.display = 'none';
-    }
+		// Hide the popup
+		if ('hidePopover' in this) {
+			this.hidePopover();
+		} else {
+			this.style.display = 'none';
+		}
 
-    // Dispatch event
-    this.dispatchEvent(new CustomEvent('preferencesChanged', {
-      detail: { ...this.#preferences },
-      bubbles: true
-    }));
+		// Dispatch event
+		this.dispatchEvent(
+			new CustomEvent('preferencesChanged', {
+				detail: { ...this.#preferences },
+				bubbles: true,
+			}),
+		);
 
-    // Resolve the promise
-    if (this.#resolvePromise) {
-      this.#resolvePromise(this.#preferences);
-      this.#resolvePromise = null;
-    }
-  }
+		// Resolve the promise
+		if (this.#resolvePromise) {
+			this.#resolvePromise(this.#preferences);
+			this.#resolvePromise = null;
+		}
+	}
 
-  /**
-   * Load preferences from localStorage
-   * @private
-   */
-  #loadPreferences() {
-    try {
-      const stored = localStorage.getItem(this.#storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        this.#preferences = {
-          ...this.#preferences,
-          ...parsed
-        };
+	/**
+	 * Load preferences from localStorage
+	 * @private
+	 */
+	#loadPreferences() {
+		try {
+			const stored = localStorage.getItem(this.#storageKey);
+			if (stored) {
+				const parsed = JSON.parse(stored);
+				this.#preferences = {
+					...this.#preferences,
+					...parsed,
+				};
 
-        // Resolve the promise immediately if we have stored preferences
-        if (this.#resolvePromise) {
-          this.#resolvePromise(this.#preferences);
-          this.#resolvePromise = null;
-        }
-      }
-    } catch (e) {
-      console.error('Error loading cookie preferences', e);
-    }
-  }
+				// Resolve the promise immediately if we have stored preferences
+				if (this.#resolvePromise) {
+					this.#resolvePromise(this.#preferences);
+					this.#resolvePromise = null;
+				}
+			}
+		} catch (e) {
+			console.error('Error loading cookie preferences', e);
+		}
+	}
 
-  /**
-   * Check if preferences are already stored
-   * @private
-   * @returns {boolean} - Whether preferences are stored
-   */
-  #hasPreferencesStored() {
-    return localStorage.getItem(this.#storageKey) !== null;
-  }
+	/**
+	 * Check if preferences are already stored
+	 * @private
+	 * @returns {boolean} - Whether preferences are stored
+	 */
+	#hasPreferencesStored() {
+		return localStorage.getItem(this.#storageKey) !== null;
+	}
 
-  /**
-   * Handle clicking the "Accept All" button
-   * @private
-   */
-  #handleAcceptAll = () => {
-    this.#savePreferences({
-      necessary: true,
-      analytics: true,
-      preferences: true,
-      marketing: true
-    });
-  }
+	/**
+	 * Handle clicking the "Accept All" button
+	 * @private
+	 */
+	#handleAcceptAll = () => {
+		this.#savePreferences({
+			necessary: true,
+			analytics: true,
+			preferences: true,
+			marketing: true,
+		});
+	};
 
-  /**
-   * Handle clicking the "Accept Necessary" button
-   * @private
-   */
-  #handleAcceptNecessary = () => {
-    this.#savePreferences({
-      necessary: true,
-      analytics: false,
-      preferences: false,
-      marketing: false
-    });
-  }
+	/**
+	 * Handle clicking the "Accept Necessary" button
+	 * @private
+	 */
+	#handleAcceptNecessary = () => {
+		this.#savePreferences({
+			necessary: true,
+			analytics: false,
+			preferences: false,
+			marketing: false,
+		});
+	};
 
-  /**
-   * Handle clicking the "Customize" button
-   * @private
-   */
-  #handleCustomize = () => {
-    const mainView = this.shadowRoot.getElementById('main-view');
-    const customizeView = this.shadowRoot.getElementById('customize-view');
+	/**
+	 * Handle clicking the "Customize" button
+	 * @private
+	 */
+	#handleCustomize = () => {
+		const mainView = this.shadowRoot.getElementById('main-view');
+		const customizeView = this.shadowRoot.getElementById('customize-view');
 
-    mainView.style.display = 'none';
-    customizeView.style.display = 'block';
-  }
+		mainView.style.display = 'none';
+		customizeView.style.display = 'block';
+	};
 
-  /**
-   * Handle clicking the "Save Preferences" button
-   * @private
-   */
-  #handleSavePreferences = () => {
-    const analyticsCheckbox = this.shadowRoot.getElementById('analytics-checkbox');
-    const preferencesCheckbox = this.shadowRoot.getElementById('preferences-checkbox');
-    const marketingCheckbox = this.shadowRoot.getElementById('marketing-checkbox');
+	/**
+	 * Handle clicking the "Save Preferences" button
+	 * @private
+	 */
+	#handleSavePreferences = () => {
+		const analyticsCheckbox = this.shadowRoot.getElementById('analytics-checkbox');
+		const preferencesCheckbox = this.shadowRoot.getElementById('preferences-checkbox');
+		const marketingCheckbox = this.shadowRoot.getElementById('marketing-checkbox');
 
-    this.#savePreferences({
-      necessary: true,
-      analytics: analyticsCheckbox.checked,
-      preferences: preferencesCheckbox.checked,
-      marketing: marketingCheckbox.checked
-    });
-  }
+		this.#savePreferences({
+			necessary: true,
+			analytics: analyticsCheckbox.checked,
+			preferences: preferencesCheckbox.checked,
+			marketing: marketingCheckbox.checked,
+		});
+	};
 
-  /**
-   * Render the component
-   */
-  render() {
-    const privacyPolicyUrl = this.getAttribute('privacy-policy-url') || '/privacy-policy';
-    const necessaryCookies = this.getAttribute('necessary-cookies') || 'session,csrf';
-    const optionalCookies = this.getAttribute('optional-cookies') || 'analytics,preferences,marketing';
+	/**
+	 * Render the component
+	 */
+	render() {
+		const privacyPolicyUrl = this.getAttribute('privacy-policy-url') || '/privacy-policy';
+		const necessaryCookies = this.getAttribute('necessary-cookies') || 'session,csrf';
+		const optionalCookies =
+			this.getAttribute('optional-cookies') || 'analytics,preferences,marketing';
 
-    this.shadowRoot.innerHTML = `
+		this.shadowRoot.innerHTML = `
       <style>
         :host {
           --cc-background: var(--cookie-background, #ffffff);
@@ -404,12 +417,20 @@ class CookieConsent extends HTMLElement {
       </div>
     `;
 
-    // Add event listeners
-    this.shadowRoot.querySelector('#accept-all').addEventListener('click', this.#handleAcceptAll);
-    this.shadowRoot.querySelector('#accept-necessary').addEventListener('click', this.#handleAcceptNecessary);
-    this.shadowRoot.querySelector('#customize').addEventListener('click', this.#handleCustomize);
-    this.shadowRoot.querySelector('#save-preferences').addEventListener('click', this.#handleSavePreferences);
-  }
+		// Add event listeners
+		this.shadowRoot
+			.querySelector('#accept-all')
+			.addEventListener('click', this.#handleAcceptAll);
+		this.shadowRoot
+			.querySelector('#accept-necessary')
+			.addEventListener('click', this.#handleAcceptNecessary);
+		this.shadowRoot
+			.querySelector('#customize')
+			.addEventListener('click', this.#handleCustomize);
+		this.shadowRoot
+			.querySelector('#save-preferences')
+			.addEventListener('click', this.#handleSavePreferences);
+	}
 }
 
 // Define the custom element

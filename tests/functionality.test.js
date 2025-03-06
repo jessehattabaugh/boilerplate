@@ -60,10 +60,10 @@ test.describe('Functional tests', () => {
 
 		// Verify the theme changed (checking for class on html)
 		const isDarkMode = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode')
+			document.documentElement.classList.contains('dark-mode'),
 		);
 		const isLightMode = await page.evaluate(() =>
-			document.documentElement.classList.contains('light-mode')
+			document.documentElement.classList.contains('light-mode'),
 		);
 
 		// Depending on system settings, one should be true and one should be false

@@ -84,11 +84,11 @@ A theme toggle component that allows users to switch between light, dark, and sy
 
 #### Features:
 
-- **Multiple theme modes:** Supports light, dark, and system preference modes
-- **Preference persistence:** Remembers user's theme choice across sessions
-- **System preference detection:** Automatically follows system theme when in auto mode
-- **CSS variable integration:** Uses CSS variables for seamless theme switching
-- **Responsive design:** Adapts to different screen sizes
+-   **Multiple theme modes:** Supports light, dark, and system preference modes
+-   **Preference persistence:** Remembers user's theme choice across sessions
+-   **System preference detection:** Automatically follows system theme when in auto mode
+-   **CSS variable integration:** Uses CSS variables for seamless theme switching
+-   **Responsive design:** Adapts to different screen sizes
 
 #### JavaScript API:
 
@@ -104,8 +104,8 @@ document.querySelector('theme-toggle').setTheme('dark'); // Options: 'light', 'd
 
 // Listen for theme changes
 document.querySelector('theme-toggle').addEventListener('themeChange', (e) => {
-  console.log('Theme changed:', e.detail.theme);
-  console.log('Is dark mode:', e.detail.isDark);
+	console.log('Theme changed:', e.detail.theme);
+	console.log('Is dark mode:', e.detail.isDark);
 });
 ```
 
@@ -124,18 +124,18 @@ The boilerplate uses Playwright for end-to-end testing which provides:
 
 Accessibility is a first-class citizen in our testing approach:
 
-- **Built-in accessibility testing:** Uses Playwright's accessibility-focused selectors like getByRole and getByLabel
-- **Keyboard navigation testing:** Ensures all interactive elements can be accessed and activated via keyboard
-- **Screen reader friendly:** Tests use the same selectors that screen readers would use
-- **Alt text verification:** Ensures all images have appropriate alt text
-- **Semantic HTML testing:** Verifies proper use of ARIA attributes and semantic HTML elements
+-   **Built-in accessibility testing:** Uses Playwright's accessibility-focused selectors like getByRole and getByLabel
+-   **Keyboard navigation testing:** Ensures all interactive elements can be accessed and activated via keyboard
+-   **Screen reader friendly:** Tests use the same selectors that screen readers would use
+-   **Alt text verification:** Ensures all images have appropriate alt text
+-   **Semantic HTML testing:** Verifies proper use of ARIA attributes and semantic HTML elements
 
 Our tests are intentionally designed to select elements the same way a user would interact with them, especially users of assistive technologies. Instead of using implementation details like CSS selectors or test IDs, we use:
 
-- `getByRole` - to find elements by their ARIA role
-- `getByLabel` - to find form elements by their associated label
-- `getByText` - to find elements by their visible text content
-- `getByAltText` - to find images by their alt text
+-   `getByRole` - to find elements by their ARIA role
+-   `getByLabel` - to find form elements by their associated label
+-   `getByText` - to find elements by their visible text content
+-   `getByAltText` - to find images by their alt text
 
 This approach not only creates more resilient tests, but also ensures our application remains accessible as it evolves.
 
