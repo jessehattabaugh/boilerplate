@@ -25,7 +25,8 @@
 		"test:e2e": "playwright test",
 		"test:e2e:staging": "cross-env TEST_ENV=staging playwright test",
 		"test:e2e:ui": "playwright test --ui",
-		"test:e2e:update-snapshots": "playwright test --update-snapshots"
+		"test:e2e:update-snapshots": "playwright test --update-snapshots",
+		"test:a11y": "playwright test accessibility.test.js"
 	},
 	"type": "module"
 }

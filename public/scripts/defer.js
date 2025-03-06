@@ -3,28 +3,21 @@ console.debug('deferred script loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
 	// Initialize behaviors
-	detectColorScheme();
 	setupIntersectionObservers();
 	setupBotProtection();
+	setupThemeToggle();
 });
 
 /**
- * Detect and handle color scheme preferences
+ * Set up theme toggle interaction
  */
-function detectColorScheme() {
-	// Check for user preference
-	const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)');
-
-	// Handle changes in preference
-	darkModePreference.addEventListener('change', (e) => {
-		const isDark = e.matches;
-		document.documentElement.classList.toggle('dark-mode', isDark);
-		document.documentElement.classList.toggle('light-mode', !isDark);
-	});
-
-	// Initial setup
-	document.documentElement.classList.toggle('dark-mode', darkModePreference.matches);
-	document.documentElement.classList.toggle('light-mode', !darkModePreference.matches);
+function setupThemeToggle() {
+	const themeToggle = document.querySelector('theme-toggle');
+	if (themeToggle) {
+		themeToggle.addEventListener('themeChange', (e) => {
+			console.debug('Theme changed:', e.detail);
+		});
+	}
 }
 
 /**

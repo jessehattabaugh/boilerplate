@@ -1,40 +1,8 @@
 // View Transitions API implementation
 document.addEventListener('DOMContentLoaded', () => {
-	// Initialize cookie consent
-	initCookieConsent();
-
 	// Setup View Transitions for navigation
 	setupViewTransitions();
 });
-
-/**
- * Initialize the cookie consent dialog
- */
-function initCookieConsent() {
-	const cookieConsent = document.getElementById('cookie-consent');
-	const acceptButton = document.getElementById('cookie-accept');
-	const declineButton = document.getElementById('cookie-decline');
-
-	// Check if user has already made a choice
-	const cookieChoice = localStorage.getItem('cookie-choice');
-
-	if (!cookieChoice) {
-		// Show the cookie consent dialog
-		cookieConsent.removeAttribute('hidden');
-
-		// Handle user choices
-		acceptButton.addEventListener('click', () => {
-			localStorage.setItem('cookie-choice', 'accepted');
-			cookieConsent.setAttribute('hidden', '');
-			// Here you would initialize analytics or other cookie-dependent features
-		});
-
-		declineButton.addEventListener('click', () => {
-			localStorage.setItem('cookie-choice', 'declined');
-			cookieConsent.setAttribute('hidden', '');
-		});
-	}
-}
 
 /**
  * Setup view transitions for internal navigation
