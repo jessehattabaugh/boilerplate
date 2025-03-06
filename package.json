@@ -1,41 +1,46 @@
 {
+	"browserslist": [
+		"> 1%",
+		"not dead",
+		"not IE 11"
+	],
 	"description": "A modern web boilerplate",
 	"devDependencies": {
 		"@eslint/compat": "latest",
 		"@eslint/eslintrc": "latest",
 		"@eslint/js": "latest",
-		"eslint": "latest",
-		"globals": "latest",
+		"@playwright/test": "latest",
 		"autoprefixer": "latest",
 		"cssnano": "latest",
+		"eslint": "latest",
+		"globals": "latest",
+		"http-server": "latest",
 		"lighthouse": "latest",
+		"npm-run-all": "latest",
 		"postcss": "latest",
 		"postcss-cli": "latest",
-		"serve": "latest",
 		"rimraf": "latest",
-		"http-server": "latest",
-		"npm-run-all": "latest"
+		"serve": "latest"
 	},
 	"homepage": "https://example.com",
 	"license": "UNLICENSED",
 	"name": "web-boilerplate",
 	"private": true,
 	"scripts": {
+		"analyze": "lighthouse http://localhost:3000 --output json --output html --output-path ./lighthouse-report.html",
+		"build": "npm-run-all clean css",
+		"clean": "rimraf public/styles/*.min.css",
+		"configure": "node scripts/configure.js",
+		"css": "postcss public/styles/*.css --dir public/styles/min/ --ext .min.css",
 		"kill": "npx kill-port 3000",
+		"lint": "eslint .",
 		"start": "npx serve ./public",
 		"start:https": "npx http-server ./public --ssl --cert ./localhost.crt --key ./localhost.key -o",
 		"test": "npx lighthouse http://localhost:3000 --view",
-		"lint": "eslint .",
-		"clean": "rimraf public/styles/*.min.css",
-		"css": "postcss public/styles/*.css --dir public/styles/min/ --ext .min.css",
-		"build": "npm-run-all clean css",
-		"analyze": "lighthouse http://localhost:3000 --output json --output html --output-path ./lighthouse-report.html",
-		"configure": "node scripts/configure.js"
+		"test:e2e": "playwright test",
+		"test:e2e:staging": "cross-env TEST_ENV=staging playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:e2e:update-snapshots": "playwright test --update-snapshots"
 	},
-	"type": "module",
-	"browserslist": [
-		"> 1%",
-		"not dead",
-		"not IE 11"
-	]
+	"type": "module"
 }
