@@ -2,6 +2,13 @@
 
 This directory contains performance baseline metrics for the application.
 
+## Related Documentation
+
+-   **[Main Project Documentation](../README.md)** - Overview of the entire project
+-   **[Visual Testing Documentation](../snapshots/README.md)** - Information about visual regression testing
+-   **[Web Components Documentation](../www/components/README.md)** - Documentation for web components including testing
+-   **[Performance Utilities](../tests/utils/performance-utils.js)** - Performance testing utility functions
+
 ## How Performance Testing Works
 
 1. **Baseline Collection**: During development, performance metrics are collected and stored as baselines

@@ -3,7 +3,6 @@
  */
 import fs from 'fs/promises';
 import path from 'path';
-import { expect } from '@playwright/test';
 import { execSync } from 'child_process';
 
 const PERFORMANCE_DIR = path.join(process.cwd(), 'performance');
@@ -14,7 +13,7 @@ const PERFORMANCE_DIR = path.join(process.cwd(), 'performance');
 async function ensurePerformanceDir() {
 	try {
 		await fs.access(PERFORMANCE_DIR);
-	} catch (err) {
+	} catch {
 		await fs.mkdir(PERFORMANCE_DIR, { recursive: true });
 	}
 }

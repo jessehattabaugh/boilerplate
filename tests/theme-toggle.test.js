@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
 import {
-	getBrowserPerformanceMetrics,
 	assertPerformanceBaseline,
 } from './utils/performance-utils.js';
 
@@ -189,7 +188,7 @@ test.describe('Theme Toggle', () => {
 
 			// Wait for any animations
 			await new Promise((r) => {
-				return setTimeout(r, 300);
+				setTimeout(r, 300);
 			});
 
 			const end = performance.now();

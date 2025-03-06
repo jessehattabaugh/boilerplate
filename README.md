@@ -18,6 +18,14 @@ This boilerplate includes modern web features:
 -   🧪 End-to-end testing with Playwright
 -   📊 Performance testing and monitoring with baselines
 
+## Project Documentation
+
+This project includes additional documentation in specific directories:
+
+-   **[Test Snapshots Documentation](/snapshots/README.md)** - Information about visual regression testing
+-   **[Performance Baselines Documentation](/performance/README.md)** - Details on performance testing and baselines
+-   **[Component Documentation](./www/components/README.md)** - Documentation for web components
+
 ## Getting Started
 
 1. Install dependencies by running `npm install`
@@ -38,55 +46,26 @@ This boilerplate includes modern web features:
 
 ## Web Components
 
-The boilerplate includes modular web components that are encapsulated and easily replaceable:
+The boilerplate includes a sample web component that demonstrates how to create, test, and document components in this project.
 
-### Theme Toggle
+### Example Component: Theme Toggle
 
-A toggle switch component for controlling light, dark, and system themes:
+The Theme Toggle component demonstrates how to create a fully tested web component using this boilerplate:
 
 ```html
 <theme-toggle></theme-toggle>
 ```
 
-#### Features:
+This component provides a toggle for dark/light mode and demonstrates:
 
--   **Multiple theme modes:** Supports light, dark, and system preference modes
--   **Preference persistence:** Remembers user's theme choice across sessions
--   **System preference detection:** Automatically follows system theme when in auto mode
--   **Self-contained styles:** All styles are encapsulated within the component
--   **Responsive design:** Adapts to different screen sizes
+-   Encapsulation with Shadow DOM
+-   Component styling
+-   Event handling
+-   Accessibility features
+-   Performance optimization
+-   Visual regression testing
 
-#### JavaScript API:
-
-```javascript
-// Import the component class if you want to use it programmatically
-import { ThemeToggle } from './components/theme-toggle.js';
-
-// Or use the already registered custom element
-const toggle = document.querySelector('theme-toggle');
-
-// Get the current theme
-const currentTheme = toggle.getTheme();
-
-// Check if dark mode is active
-const isDark = toggle.isDarkMode();
-
-// Set theme programmatically
-toggle.setTheme('dark'); // Options: 'light', 'dark', 'system'
-
-// Listen for theme changes
-toggle.addEventListener('themeChange', (e) => {
-	console.log('Theme changed:', e.detail.theme);
-	console.log('Is dark mode:', e.detail.isDark);
-});
-```
-
-#### Customizing or Replacing:
-
-The theme toggle component is designed to be easily customizable or replaceable:
-
-1. Modify the existing component at `/components/theme-toggle.js`
-2. Or create your own component and update the registration in `/components/index.js`
+For detailed documentation on this component and instructions for creating your own web components, see the [Web Components Documentation](./www/components/README.md).
 
 ## Accessibility Features
 
