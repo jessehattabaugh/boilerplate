@@ -1,37 +1,22 @@
 {
-	"browserslist": [
-		"> 1%",
-		"not dead",
-		"not IE 11"
-	],
-	"description": "A modern web boilerplate",
 	"devDependencies": {
 		"@eslint/compat": "latest",
 		"@eslint/eslintrc": "latest",
 		"@eslint/js": "latest",
 		"@playwright/test": "latest",
-		"autoprefixer": "latest",
-		"cssnano": "latest",
 		"eslint": "latest",
 		"globals": "latest",
 		"http-server": "latest",
 		"lighthouse": "latest",
 		"npm-run-all": "latest",
-		"postcss": "latest",
-		"postcss-cli": "latest",
 		"rimraf": "latest",
 		"serve": "latest"
 	},
-	"homepage": "https://example.com",
-	"license": "UNLICENSED",
-	"name": "web-boilerplate",
-	"private": true,
 	"scripts": {
 		"analyze": "lighthouse http://localhost:3000 --output json --output html --output-path ./lighthouse-report.html",
-		"build": "npm-run-all clean css",
+		"build": "npm-run-all clean",
 		"clean": "rimraf public/styles/*.min.css",
 		"configure": "node scripts/configure.js",
-		"css": "postcss public/styles/*.css --dir public/styles/min/ --ext .min.css",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "npx serve ./public",
