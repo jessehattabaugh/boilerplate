@@ -1,92 +1,42 @@
-import globals from 'globals';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
-import { includeIgnoreFile } from '@eslint/compat';
+import { fileURLToPath } from 'node:url';
+import globals from 'globals';
+import js from '@eslint/js';
+import path from 'node:path';
 
+// ESLint Flat Config setup
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const compat = new FlatCompat({
 	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all,
 });
-const gitignorePath = path.resolve(__dirname, '.gitignore');
 
 export default [
-	includeIgnoreFile(gitignorePath),
+	js.configs.recommended,
 	...compat.extends('eslint:recommended'),
 	{
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.node,
-				...globals.serviceworker,
-				...globals.worker,
-				workbox: 'readonly',
 			},
-
 			ecmaVersion: 'latest',
 			sourceType: 'module',
-
-			parserOptions: {
-				ecmaFeatures: {
-					impliedStrict: true,
-				},
-			},
 		},
-
 		rules: {
-			'accessor-pairs': 'warn',
-			'array-callback-return': 'warn',
-			'arrow-body-style': ['warn', 'always'],
-			camelcase: 'warn',
-			curly: 'warn',
-			'consistent-return': 'warn',
-			'no-await-in-loop': 'warn',
-			'no-constant-binary-expression': 'warn',
-			'no-constructor-return': 'warn',
-			'no-duplicate-imports': 'warn',
-			'no-nested-ternary': 'warn',
-			'no-param-reassign': 'warn',
-			'no-promise-executor-return': 'warn',
-			'no-restricted-globals': ['warn', 'event', 'fdescribe'],
-			'no-restricted-syntax': [
-				'warn',
-				{
-					selector:
-						'CallExpression[callee.name="document"][callee.property.name="write"]',
-					message: 'Do not use document.write()',
-				},
-			],
-			'no-return-await': 'warn',
-			'no-script-url': 'warn',
-			'no-self-compare': 'warn',
-			'no-template-curly-in-string': 'warn',
-			'no-unmodified-loop-condition': 'warn',
-			'no-unreachable-loop': 'warn',
-			'no-unused-private-class-members': 'warn',
-			'no-unused-vars': 'warn',
-			'no-use-before-define': 'warn',
-			'no-var': 'warn',
-			'object-shorthand': 'warn',
-			'prefer-arrow-callback': 'warn',
+			'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+			'no-console': ['warn', { allow: ['warn', 'error', 'info', 'debug'] }],
+			'no-debugger': 'warn',
 			'prefer-const': 'warn',
-			'prefer-destructuring': 'warn',
-			'prefer-rest-params': 'warn',
-			'prefer-spread': 'warn',
-			'prefer-template': 'warn',
-			'require-atomic-updates': 'warn',
+			'no-var': 'error',
+			eqeqeq: ['error', 'always'],
+			'no-trailing-spaces': 'warn',
+			'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 1 }],
+			quotes: ['warn', 'single', { avoidEscape: true }],
+			semi: ['warn', 'always'],
+			indent: ['warn', 'tab'],
 		},
-	},
-	// Add specific configuration for service worker files
-	{
-		files: ['**/sw.js'],
-		languageOptions: {
-			globals: {
-				workbox: 'readonly',
-			},
-		},
+		ignores: ['**/node_modules/**', '**/dist/**'],
 	},
 ];

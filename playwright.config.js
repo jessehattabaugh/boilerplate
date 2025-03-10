@@ -1,3 +1,4 @@
+// @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -15,23 +16,16 @@ const getBaseUrl = () => {
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-	testDir: './tests',
-	fullyParallel: true,
-	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 2 : 0,
-	workers: process.env.CI ? 1 : undefined,
-	reporter: [['html', { open: 'never' }], ['list']],
-
-	// Configure the flat snapshot directory
-	snapshotDir: './snapshots',
-
-	// Configure expectations
+	testDir: './test',
+	timeout: 30 * 1000,
 	expect: {
+		timeout: 5000,
 		// Configure screenshot comparison
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
-			// Use a naming convention that includes "baseline" for base snapshots
-			snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
+			// Use a naming convention that includes "tmp" for new snapshots
+			// These will be ignored by git until accepted as baselines
+			snapshotPathTemplate: '{snapshotDir}/{arg}.tmp{ext}',
 		},
 		// Set performance thresholds
 		toPassPerformanceThreshold: {
@@ -43,50 +37,45 @@ export default defineConfig({
 			totalBlockingTime: 200, // 200 milliseconds
 		},
 	},
-
+	fullyParallel: true,
+	forbidOnly: !!process.env.CI,
+	retries: process.env.CI ? 2 : 0,
+	workers: process.env.CI ? 1 : undefined,
+	reporter: 'html',
 	use: {
 		baseURL: getBaseUrl(),
+		actionTimeout: 0,
 		trace: 'on-first-retry',
 		screenshot: 'only-on-failure',
 		video: 'retain-on-failure',
 	},
 
-	// Configure projects for different browsers
 	projects: [
 		{
 			name: 'chromium',
-			use: {
-				browserName: 'chromium',
-				viewport: { width: 1280, height: 720 },
-			},
+			use: { ...devices['Desktop Chrome'] },
 		},
 		{
 			name: 'firefox',
-			use: {
-				browserName: 'firefox',
-				viewport: { width: 1280, height: 720 },
-			},
+			use: { ...devices['Desktop Firefox'] },
 		},
 		{
 			name: 'webkit',
-			use: {
-				browserName: 'webkit',
-				viewport: { width: 1280, height: 720 },
-			},
+			use: { ...devices['Desktop Safari'] },
 		},
 		{
 			name: 'mobile-chrome',
-			use: {
-				browserName: 'chromium',
-				...devices['Pixel 5'],
-			},
+			use: { ...devices['Pixel 5'] },
 		},
 		{
 			name: 'mobile-safari',
-			use: {
-				browserName: 'webkit',
-				...devices['iPhone 12'],
-			},
+			use: { ...devices['iPhone 12'] },
 		},
 	],
+
+	webServer: {
+		command: 'npm run start',
+		port: 3000,
+		reuseExistingServer: !process.env.CI,
+	},
 });

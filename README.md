@@ -25,6 +25,7 @@ This project includes additional documentation in specific directories:
 -   **[Test Snapshots Documentation](/snapshots/README.md)** - Information about visual regression testing
 -   **[Performance Baselines Documentation](/performance/README.md)** - Details on performance testing and baselines
 -   **[Component Documentation](./www/components/README.md)** - Documentation for web components
+-   **[Coding Guidelines](./.github/copiliot-instructions.md)** - Coding standards and best practices for this project
 
 ## Getting Started
 
@@ -283,18 +284,9 @@ The script automatically captures:
 
 Screenshots are saved to `/public/screenshots/` and the manifest.json is automatically updated.
 
-## Best Practices
+## Coding Standards
 
-This boilerplate follows these best practices:
-
--   Progressive enhancement
--   Mobile-first design
--   Semantic HTML
--   Performance optimization
--   Accessibility (WCAG compliance)
--   Keyboard navigability
--   Screen reader compatibility
--   Reduced motion support
+For detailed coding guidelines and best practices used in this project, please refer to the [Coding Guidelines](./.github/copiliot-instructions.md) document.
 
 ## Customization
 
@@ -303,4 +295,4 @@ Configure site details in `public/scripts/config.js`.
 
 ## Browser Support
 
-Supports all modern browsers. IE is not supported.
+

@@ -1,3 +1,40 @@
+/**
+ * Global type definitions for the project
+ */
+
+/**
+ * Theme options
+ * @typedef {'light' | 'dark' | 'system'} Theme
+ */
+
+/**
+ * Theme change event detail
+ * @typedef {Object} ThemeChangeEventDetail
+ * @property {Theme} theme - The selected theme
+ * @property {boolean} isDark - Whether dark mode is active
+ */
+
+/**
+ * Custom theme change event
+ * @typedef {CustomEvent<ThemeChangeEventDetail>} ThemeChangeEvent
+ */
+
+/**
+ * Configuration options for the site
+ * @typedef {Object} SiteConfig
+ * @property {string} siteName - The name of the site
+ * @property {string} siteDescription - The description of the site
+ * @property {string} siteUrl - The URL of the site
+ * @property {string} locale - The locale of the site (e.g., en-US)
+ * @property {boolean} enableServiceWorker - Whether to enable the service worker
+ */
+
+// Declare global variables
+interface Window {
+  /** Site configuration */
+  siteConfig?: SiteConfig;
+}
+
 // Global types for modern web APIs
 
 // View Transitions API

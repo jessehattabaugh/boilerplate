@@ -1,18 +1,14 @@
 {
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{
+			"file": "CHANGELOG.md",
+			"if these changes add or remove functionality ensure that they have been mentioned in the CHANGELOG.md file": "changed functionality"
+		}
+	],
+	"github.copilot.chat.commitMessageGeneration.enabled": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit"
-	},
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"],
-	"css.validate": true,
-	"html.validate.scripts": true,
-	"html.validate.styles": true,
-	"javascript.validate.enable": false,
-	"editor.tabSize": 2,
-	"editor.insertSpaces": false,
-	"editor.rulers": [100],
-	"files.eol": "\n",
-	"files.trimTrailingWhitespace": true,
-	"files.insertFinalNewline": true
+		"source.fixAll.eslint": "always"
+	}
 }

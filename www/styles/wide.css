@@ -9,15 +9,16 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: var(--space-6) 0;
 }
 
 nav ul {
 	display: flex;
-	gap: 2em;
+	gap: var(--space-6);
 }
 
 main {
-	padding: 2em;
+	padding: var(--space-8) 0;
 }
 
 /* Use CSS grid for complex layouts on wider screens */
@@ -46,4 +47,52 @@ main {
 	button:hover {
 		filter: brightness(1.1);
 	}
+}
+
+/**
+ * Wide Screen Styles
+ * 🖥️ Styles for wider viewports (tablets and desktops)
+ */
+
+/* Typography adjustments for wide screens */
+h1 {
+	font-size: 3rem;
+}
+
+h2 {
+	font-size: 2.25rem;
+}
+
+h3 {
+	font-size: 1.75rem;
+}
+
+/* Container adjustments */
+.container {
+	padding-left: var(--space-8);
+	padding-right: var(--space-8);
+}
+
+/* Layout enhancements for wide screens */
+.wide-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: var(--space-6);
+}
+
+.two-column {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--space-8);
+}
+
+.three-column {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: var(--space-6);
+}
+
+/* Footer layout for wide screens */
+footer {
+	padding: var(--space-8) 0;
 }

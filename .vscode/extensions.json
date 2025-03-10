@@ -5,14 +5,7 @@
 		"dbaeumer.vscode-eslint",
 		"editorconfig.editorconfig",
 		"esbenp.prettier-vscode",
-		"bradlc.vscode-tailwindcss",
-		"ritwickdey.liveserver",
 		"ms-vscode.vscode-typescript-next",
-		"formulahendry.auto-close-tag",
-		"zignd.html-css-class-completion",
-		"kisstkondoros.vscode-codemetrics",
-		"streetsidesoftware.code-spell-checker",
-		"usernamehw.errorlens",
-		"wix.vscode-import-cost"
+		"usernamehw.errorlens"
 	]
 }
