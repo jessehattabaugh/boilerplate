@@ -124,10 +124,10 @@ test.describe('About Page', () => {
 
     test('about page loads successfully 🚀', async ({ page }) => {
         await page.goto('/about.html');
-        
+
         // Check that the page title contains "About"
         await expect(page).toHaveTitle(/About/);
-        
+
         // Verify main heading
         const heading = page.getByRole('heading', { level: 1 });
         await expect(heading).toBeVisible();
@@ -135,25 +135,25 @@ test.describe('About Page', () => {
 
     test('navigation works correctly 🧭', async ({ page }) => {
         await page.goto('/about.html');
-        
+
         // Click navigation links
         await page.click('nav a[href="/index.html"]');
         await expect(page).toHaveURL('/index.html');
-        
+
         await page.click('nav a[href="/contact.html"]');
         await expect(page).toHaveURL('/contact.html');
-        
+
         await page.click('nav a[href="/about.html"]');
         await expect(page).toHaveURL('/about.html');
     });
 
     test('about page is accessible ♿', async ({ page }) => {
         await page.goto('/about.html');
-        
+
         // Check for basic accessibility issues
         const accessibilityScanResults = await page.accessibility.snapshot();
         expect(accessibilityScanResults.children.length).toBeGreaterThan(0);
-        
+
         // Test keyboard navigation
         await page.keyboard.press('Tab');
         const skipLink = await page.evaluate(() => document.activeElement?.classList.contains('sr-only'));
@@ -162,10 +162,10 @@ test.describe('About Page', () => {
 
     test('takes visual snapshot of about page 📸', async ({ page }) => {
         await page.goto('/about.html');
-        
+
         // Wait for any animations to complete
         await page.waitForTimeout(500);
-        
+
         // Take screenshot
         await expect(page).toHaveScreenshot('about-page-baseline.png');
     });
@@ -173,7 +173,7 @@ test.describe('About Page', () => {
     test('mobile layout matches baseline 📱', async ({ page }) => {
         await page.setViewportSize({ width: 375, height: 667 });
         await page.goto('/about.html');
-        
+
         await expect(page).toHaveScreenshot('about-page-mobile-baseline.png');
     });
 });

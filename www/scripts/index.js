@@ -1,10 +1,10 @@
 // Page-specific JavaScript
 
+import { CarouselItem } from '/components/carousel-item.js';
+import { ImageCarousel } from '/components/image-carousel.js';
+import { SiteFooter } from '/components/site-footer.js';
 // Import shared functionality
 import { SiteHeader } from '/components/site-header.js';
-import { SiteFooter } from '/components/site-footer.js';
-import { ImageCarousel } from '/components/image-carousel.js';
-import { CarouselItem } from '/components/carousel-item.js';
 
 // Register custom elements if not already registered
 if (!customElements.get('site-header')) {

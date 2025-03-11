@@ -35,7 +35,7 @@ export async function handler(event, context) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         message: 'Form submitted successfully',
         timestamp: new Date().toISOString()
       }),
