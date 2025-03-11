@@ -1,8 +1,8 @@
 /**
  * Form Validation Utilities
  * 📝 Common validation functions for forms
- * 
- * @file Collection of reusable form validation functions 
+ *
+ * @file Collection of reusable form validation functions
  */
 
 /**
@@ -23,14 +23,14 @@ export function validateEmail(email) {
 export function validateRequired(fields) {
 	const errors = {};
 	let isValid = true;
-	
+
 	for (const [fieldName, value] of Object.entries(fields)) {
 		if (!value || (typeof value === 'string' && !value.trim())) {
 			errors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
 			isValid = false;
 		}
 	}
-	
+
 	return { isValid, errors };
 }
 
@@ -53,7 +53,7 @@ export function displayFormErrors(errors, errorSuffix = "-error") {
 	for (const [fieldName, errorMessage] of Object.entries(errors)) {
 		const field = document.getElementById(fieldName);
 		const errorEl = document.getElementById(`${fieldName}${errorSuffix}`);
-		
+
 		if (field && errorEl) {
 			field.setAttribute('aria-invalid', 'true');
 			errorEl.textContent = errorMessage;
@@ -69,7 +69,7 @@ export function displayFormErrors(errors, errorSuffix = "-error") {
 export function clearFormErrors(form, errorSuffix = "-error") {
 	// Get all input elements
 	const inputs = form.querySelectorAll('input, textarea, select');
-	
+
 	inputs.forEach(input => {
 		const errorEl = document.getElementById(`${input.id}${errorSuffix}`);
 		if (errorEl) {

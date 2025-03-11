@@ -11,35 +11,35 @@ export class ImageCarousel extends HTMLElement {
 		this.items = [];
 		this.paused = false;
 	}
-	
+
 	// Component lifecycle methods
 	connectedCallback() {
 		this.render();
 		this.setupItems();
 		this.setupControls();
-		
+
 		if (this.hasAttribute('auto-play')) {
 			const interval = this.getAttribute('interval') || 5000;
 			this.startAutoPlay(Number(interval));
 		}
-		
+
 		// Support keyboard navigation and accessibility
 		this.setAttribute('tabindex', '0');
 		this.addEventListener('keydown', this.handleKeyDown.bind(this));
 		this.addEventListener('focus', () => this.pauseAutoPlay());
 		this.addEventListener('blur', () => this.resumeAutoPlay());
-		
+
 		// Support reduced motion preferences
 		this.checkReducedMotion();
-		
+
 		console.debug('🎠 Carousel initialized');
 	}
-	
+
 	disconnectedCallback() {
 		this.stopAutoPlay();
 		this.removeEventListeners();
 	}
-	
+
 	/**
 	 * Render the component's HTML structure
 	 */
@@ -53,12 +53,12 @@ export class ImageCarousel extends HTMLElement {
 					width: 100%;
 					min-height: 200px;
 				}
-				
+
 				.carousel-container {
 					position: relative;
 					height: 100%;
 				}
-				
+
 				.carousel-controls {
 					display: flex;
 					justify-content: space-between;
@@ -68,7 +68,7 @@ export class ImageCarousel extends HTMLElement {
 					transform: translateY(-50%);
 					z-index: 10;
 				}
-				
+
 				.carousel-button {
 					background-color: var(--color-surface);
 					border: none;
@@ -84,22 +84,22 @@ export class ImageCarousel extends HTMLElement {
 					transition: opacity 0.3s ease;
 					margin: 0 10px;
 				}
-				
+
 				.carousel-button:hover {
 					opacity: 1;
 				}
-				
+
 				.carousel-button:focus-visible {
 					outline: 2px solid var(--color-primary);
 					outline-offset: 2px;
 				}
-				
+
 				.carousel-indicators {
 					display: flex;
 					justify-content: center;
 					margin: 10px 0;
 				}
-				
+
 				.indicator {
 					width: 10px;
 					height: 10px;
@@ -109,55 +109,55 @@ export class ImageCarousel extends HTMLElement {
 					cursor: pointer;
 					transition: background-color 0.3s ease;
 				}
-				
+
 				.indicator.active {
 					background-color: var(--color-primary);
 				}
-				
+
 				@media (prefers-reduced-motion: reduce) {
 					::slotted(*) {
 						transition: none !important;
 					}
 				}
 			</style>
-			
+
 			<div class="carousel-container" aria-roledescription="carousel">
 				<div class="carousel-content">
 					<slot></slot>
 				</div>
-				
+
 				<div class="carousel-controls">
-					<button 
-						class="carousel-button prev" 
+					<button
+						class="carousel-button prev"
 						aria-label="Previous slide"
 						title="Previous slide">
 						&lt;
 					</button>
-					<button 
-						class="carousel-button next" 
+					<button
+						class="carousel-button next"
 						aria-label="Next slide"
 						title="Next slide">
 						&gt;
 					</button>
 				</div>
-				
+
 				<div class="carousel-indicators" role="tablist"></div>
 			</div>
 		`;
 	}
-	
+
 	/**
 	 * Initialize carousel items
 	 */
 	setupItems() {
 		// Get all carousel items
 		this.items = Array.from(this.querySelectorAll('carousel-item'));
-		
+
 		if (this.items.length === 0) {
 			console.warn('🎠 No carousel items found');
 			return;
 		}
-		
+
 		// Set initial states
 		this.items.forEach((item, index) => {
 			item.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
@@ -166,7 +166,7 @@ export class ImageCarousel extends HTMLElement {
 			item.setAttribute('id', `carousel-item-${index}`);
 			item.setAttribute('aria-labelledby', `carousel-indicator-${index}`);
 		});
-		
+
 		// Create indicator dots
 		const indicators = this.shadowRoot.querySelector('.carousel-indicators');
 		this.items.forEach((_, index) => {
@@ -177,7 +177,7 @@ export class ImageCarousel extends HTMLElement {
 			indicator.setAttribute('aria-controls', `carousel-item-${index}`);
 			indicator.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
 			indicator.setAttribute('tabindex', '0');
-			
+
 			indicator.addEventListener('click', () => this.goToSlide(index));
 			indicator.addEventListener('keydown', (event) => {
 				if (event.key === 'Enter' || event.key === ' ') {
@@ -185,28 +185,28 @@ export class ImageCarousel extends HTMLElement {
 					this.goToSlide(index);
 				}
 			});
-			
+
 			indicators.appendChild(indicator);
 		});
-		
+
 		// Highlight first indicator
 		this.updateIndicators();
-		
+
 		console.debug('🎠 Carousel items setup complete', {
 			items: this.items.length
 		});
 	}
-	
+
 	/**
 	 * Add event listeners to carousel controls
 	 */
 	setupControls() {
 		const prevButton = this.shadowRoot.querySelector('.carousel-button.prev');
 		const nextButton = this.shadowRoot.querySelector('.carousel-button.next');
-		
+
 		prevButton.addEventListener('click', () => this.prevSlide());
 		nextButton.addEventListener('click', () => this.nextSlide());
-		
+
 		// Hide controls if only one item
 		if (this.items.length <= 1) {
 			prevButton.style.display = 'none';
@@ -214,57 +214,57 @@ export class ImageCarousel extends HTMLElement {
 			this.shadowRoot.querySelector('.carousel-indicators').style.display = 'none';
 		}
 	}
-	
+
 	/**
 	 * Remove event listeners
 	 */
 	removeEventListeners() {
 		const prevButton = this.shadowRoot.querySelector('.carousel-button.prev');
 		const nextButton = this.shadowRoot.querySelector('.carousel-button.next');
-		
+
 		if (prevButton) prevButton.removeEventListener('click', this.prevSlide);
 		if (nextButton) nextButton.removeEventListener('click', this.nextSlide);
 	}
-	
+
 	/**
 	 * Navigate to previous slide
 	 */
 	prevSlide() {
 		if (this.items.length <= 1) return;
-		
+
 		const newIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
 		this.goToSlide(newIndex);
 	}
-	
+
 	/**
 	 * Navigate to next slide
 	 */
 	nextSlide() {
 		if (this.items.length <= 1) return;
-		
+
 		const newIndex = (this.currentIndex + 1) % this.items.length;
 		this.goToSlide(newIndex);
 	}
-	
+
 	/**
 	 * Go to a specific slide by index
 	 * @param {number} index - The slide index to show
 	 */
 	goToSlide(index) {
 		if (index === this.currentIndex || index < 0 || index >= this.items.length) return;
-		
+
 		// Hide current slide
 		this.items[this.currentIndex].hide();
-		
+
 		// Show new slide
 		this.items[index].show();
-		
+
 		// Update current index
 		this.currentIndex = index;
-		
+
 		// Update indicators
 		this.updateIndicators();
-		
+
 		// Dispatch event
 		this.dispatchEvent(new CustomEvent('slide-change', {
 			detail: {
@@ -273,7 +273,7 @@ export class ImageCarousel extends HTMLElement {
 			}
 		}));
 	}
-	
+
 	/**
 	 * Update the indicator dots to highlight current slide
 	 */
@@ -281,7 +281,7 @@ export class ImageCarousel extends HTMLElement {
 		const indicators = Array.from(
 			this.shadowRoot.querySelectorAll('.carousel-indicators .indicator')
 		);
-		
+
 		indicators.forEach((indicator, index) => {
 			if (index === this.currentIndex) {
 				indicator.classList.add('active');
@@ -292,7 +292,7 @@ export class ImageCarousel extends HTMLElement {
 			}
 		});
 	}
-	
+
 	/**
 	 * Start automatic slide cycling
 	 * @param {number} interval - Milliseconds between slides
@@ -302,20 +302,20 @@ export class ImageCarousel extends HTMLElement {
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			return;
 		}
-		
+
 		if (this.items.length <= 1) return;
-		
+
 		this.stopAutoPlay(); // Clear any existing interval
-		
+
 		this.autoPlayInterval = setInterval(() => {
 			if (!this.paused) {
 				this.nextSlide();
 			}
 		}, interval);
-		
+
 		console.debug('🎠 Auto-play started', { interval });
 	}
-	
+
 	/**
 	 * Stop automatic slide cycling
 	 */
@@ -325,21 +325,21 @@ export class ImageCarousel extends HTMLElement {
 			this.autoPlayInterval = null;
 		}
 	}
-	
+
 	/**
 	 * Pause auto-play (e.g., when user is interacting)
 	 */
 	pauseAutoPlay() {
 		this.paused = true;
 	}
-	
+
 	/**
 	 * Resume auto-play after pausing
 	 */
 	resumeAutoPlay() {
 		this.paused = false;
 	}
-	
+
 	/**
 	 * Handle keyboard navigation
 	 * @param {KeyboardEvent} event - Keyboard event
@@ -370,18 +370,18 @@ export class ImageCarousel extends HTMLElement {
 				break;
 		}
 	}
-	
+
 	/**
 	 * Check for reduced motion preference
 	 */
 	checkReducedMotion() {
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		
+
 		if (prefersReducedMotion && this.hasAttribute('auto-play')) {
 			this.stopAutoPlay();
 			console.info('🎠 Auto-play disabled due to reduced motion preference');
 		}
-		
+
 		// Listen for changes to the preference
 		window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
 			if (event.matches) {

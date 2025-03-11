@@ -7,7 +7,7 @@ export class CarouselItem extends HTMLElement {
 		super();
 		this.attachShadow({ mode: 'open' });
 	}
-	
+
 	connectedCallback() {
 		this.render();
 	}
@@ -23,13 +23,13 @@ export class CarouselItem extends HTMLElement {
 					width: 100%;
 					height: 100%;
 				}
-				
+
 				.carousel-item-content {
 					height: 100%;
 					padding: var(--space-4);
 					box-sizing: border-box;
 				}
-				
+
 				::slotted(*) {
 					margin: 0;
 				}
@@ -51,7 +51,7 @@ export class CarouselItem extends HTMLElement {
 		}));
 		console.debug('🎠 Carousel item shown');
 	}
-	
+
 	/**
 	 * Hide this carousel item
 	 */

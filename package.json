@@ -10,12 +10,12 @@
 		"netlify-cli": "latest"
 	},
 	"scripts": {
+		"accept": "node bin/accept-snapshots.js",
+		"build": "node bin/prepare-screenshots.js",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "netlify dev",
-		"build": "node bin/prepare-screenshots.js",
-		"test": "playwright test",
-		"test:accept-snapshots": "node bin/accept-snapshots.js"
+		"test": "playwright test"
 	},
 	"type": "module"
 }

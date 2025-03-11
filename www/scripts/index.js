@@ -56,7 +56,7 @@ function setupEventListeners() {
 			});
 		});
 	}
-	
+
 	// Handle CTA button interactions
 	const ctaButton = document.querySelector('.cta-button');
 	if (ctaButton) {
