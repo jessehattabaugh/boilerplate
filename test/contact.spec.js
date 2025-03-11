@@ -1,8 +1,3 @@
-import {
-	assertPerformanceBaseline,
-	getBrowserPerformanceMetrics,
-	getLighthouseScores,
-} from './utils/performance-utils.js';
 import { expect, test } from '@playwright/test';
 
 import fs from 'fs';
@@ -68,50 +63,6 @@ test.describe('Homepage', () => {
 		// Take a screenshot with the focus visible
 		await expect(page).toHaveScreenshot('homepage-keyboard-focus-baseline.png');
 	});
-
-	// Performance testing for homepage
-	test('homepage meets performance baseline requirements', async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-
-		// Collect browser performance metrics
-		const metrics = await getBrowserPerformanceMetrics(page);
-		console.log('Homepage performance metrics:', metrics);
-
-		// Compare against baseline
-		await assertPerformanceBaseline('homepage', metrics);
-
-		// Assert specific thresholds for critical metrics
-		expect(metrics.FCP).toBeLessThan(2000); // First Contentful Paint under 2s
-		expect(metrics.LCP).toBeLessThan(2500); // Largest Contentful Paint under 2.5s
-		expect(metrics.CLS).toBeLessThan(0.1); // Cumulative Layout Shift under 0.1
-	});
-
-	test('homepage passes Lighthouse performance thresholds', async ({ page, baseURL }) => {
-		test.skip(process.env.CI === 'true', 'Lighthouse tests are skipped in CI environment');
-
-		// Only run on chromium
-		test.skip(
-			page.context().browser().browserType().name() !== 'chromium',
-			'Lighthouse tests only run on Chromium',
-		);
-
-		// Visit the page first to ensure it's loaded and server is running
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
-
-		// Now run Lighthouse (using the base URL)
-		const url = baseURL || 'http://localhost:3000';
-		const scores = await getLighthouseScores(url);
-
-		// Save or compare with baseline
-		await assertPerformanceBaseline('homepage-lighthouse', scores);
-
-		// Check against absolute thresholds
-		expect(scores.performance).toBeGreaterThanOrEqual(90);
-		expect(scores.accessibility).toBeGreaterThanOrEqual(90);
-		expect(scores['best-practices']).toBeGreaterThanOrEqual(90);
-		expect(scores.seo).toBeGreaterThanOrEqual(90);
-	});
 });
 
 /**
@@ -130,50 +81,6 @@ test.describe('Index Page', () => {
 		// Check that the page has a theme toggle component
 		const themeToggle = page.locator('theme-toggle');
 		await expect(themeToggle).toBeVisible();
-	});
-
-	test('theme toggle changes theme 🌓', async ({ page }) => {
-		await page.goto('/');
-
-		// Find the theme toggle button
-		const themeToggleButton = page.locator('theme-toggle').locator('button');
-		await expect(themeToggleButton).toBeVisible();
-
-		// Get initial theme
-		const initialTheme = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-		);
-
-		// Click the toggle
-		await themeToggleButton.click();
-
-		// Check that the theme changed
-		const newTheme = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-		);
-		expect(newTheme).not.toBe(initialTheme);
-	});
-
-	test('theme toggle cycles through options 🔄', async ({ page }) => {
-		await page.goto('/');
-
-		// Find the theme toggle button
-		const themeToggleButton = page.locator('theme-toggle').locator('button');
-
-		// Click through all three states (light -> dark -> system)
-		// First click: Should go to next state
-		await themeToggleButton.click();
-		let label = await page.locator('theme-toggle').locator('.label').textContent();
-
-		// Second click: Should go to next state
-		await themeToggleButton.click();
-		let secondLabel = await page.locator('theme-toggle').locator('.label').textContent();
-		expect(secondLabel).not.toBe(label);
-
-		// Third click: Should go back to first state
-		await themeToggleButton.click();
-		let thirdLabel = await page.locator('theme-toggle').locator('.label').textContent();
-		expect(thirdLabel).not.toBe(secondLabel);
 	});
 
 	test('takes visual snapshot of the page 📸', async ({ page }) => {
@@ -205,9 +112,9 @@ test.describe('Accessibility', () => {
 	});
 });
 
-// Performance tests
+// Simple performance check without using performance-utils
 test.describe('Performance', () => {
-	test('page loads within performance budget ⚡', async ({ page }) => {
+	test('page loads within reasonable time ⚡', async ({ page }) => {
 		// Navigate to the page
 		const navigationStart = Date.now();
 		await page.goto('/');
@@ -215,16 +122,136 @@ test.describe('Performance', () => {
 
 		// Basic performance check - page should load in under 1 second in test environment
 		expect(navigationEnd - navigationStart).toBeLessThan(1000);
-
-		// Get performance metrics from the browser
-		const performanceTimings = await page.evaluate(() => JSON.stringify(performance.timing));
-		const timings = JSON.parse(performanceTimings);
-
-		// Log performance metrics for reference
-		console.info('📊 Performance metrics:', {
-			ttfb: timings.responseStart - timings.requestStart,
-			domLoaded: timings.domContentLoadedEventEnd - timings.navigationStart,
-			fullLoad: timings.loadEventEnd - timings.navigationStart,
-		});
 	});
+});
+
+/**
+ * Test suite for contact form functionality 📝
+ */
+test.describe('Contact Form 📨', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/contact.html');
+    });
+
+    test('shows error for empty fields 🚫', async ({ page }) => {
+        // Try submitting empty form
+        await page.click('button[type="submit"]');
+        
+        // Native HTML5 validation should prevent submission
+        // and highlight the first required field
+        const focusedElement = await page.evaluate(() => document.activeElement?.id);
+        expect(focusedElement).toBe('name');
+    });
+
+    test('validates email format ✉️', async ({ page }) => {
+        // Fill invalid email
+        await page.fill('#name', 'Test User');
+        await page.fill('#email', 'invalid-email');
+        await page.fill('#message', 'Test message');
+        
+        // Submit form
+        await page.click('button[type="submit"]');
+        
+        // Should show validation error
+        const emailError = await page.textContent('#email-error');
+        expect(emailError).toContain('valid email');
+    });
+
+    test('submits form successfully ✅', async ({ page }) => {
+        // Fill out form
+        await page.fill('#name', 'Test User');
+        await page.fill('#email', 'test@example.com');
+        await page.fill('#message', 'Test message');
+        
+        // Submit form
+        await page.click('button[type="submit"]');
+        
+        // Check for success message
+        const formStatus = await page.locator('#formStatus');
+        await expect(formStatus).toHaveClass('success');
+        await expect(formStatus).toContainText('successfully');
+        
+        // Form should be reset
+        await expect(page.locator('#name')).toHaveValue('');
+        await expect(page.locator('#email')).toHaveValue('');
+        await expect(page.locator('#message')).toHaveValue('');
+    });
+
+    test('handles server errors gracefully ⚠️', async ({ page }) => {
+        // Fill out form
+        await page.fill('#name', 'Error Test');
+        await page.fill('#email', 'error@test.com'); 
+        await page.fill('#message', 'Trigger error');
+        
+        // Mock failed response
+        await page.route('**/.netlify/functions/contact-form', async (route) => {
+            await route.fulfill({
+                status: 500,
+                body: JSON.stringify({ message: 'Internal server error' })
+            });
+        });
+        
+        // Submit form
+        await page.click('button[type="submit"]');
+        
+        // Check for error message
+        const formStatus = await page.locator('#formStatus');
+        await expect(formStatus).toHaveClass('error');
+        await expect(formStatus).toContainText('error');
+    });
+
+    test('shows loading state while submitting 🔄', async ({ page }) => {
+        // Fill out form
+        await page.fill('#name', 'Test User');
+        await page.fill('#email', 'test@example.com');
+        await page.fill('#message', 'Test message');
+        
+        // Start intercepting form submission
+        const responsePromise = page.waitForResponse('**/.netlify/functions/contact-form');
+        
+        // Submit form
+        await page.click('button[type="submit"]');
+        
+        // Check loading state
+        const formStatus = await page.textContent('#formStatus');
+        expect(formStatus).toBe('Sending...');
+        
+        // Wait for response
+        await responsePromise;
+    });
+
+    test('preserves user input on validation errors 💾', async ({ page }) => {
+        const testName = 'Test User';
+        const testEmail = 'invalid-email';
+        const testMessage = 'Test message';
+        
+        // Fill form with invalid email
+        await page.fill('#name', testName);
+        await page.fill('#email', testEmail);
+        await page.fill('#message', testMessage);
+        
+        // Submit form (should fail validation)
+        await page.click('button[type="submit"]');
+        
+        // Check that form values are preserved
+        await expect(page.locator('#name')).toHaveValue(testName);
+        await expect(page.locator('#email')).toHaveValue(testEmail);
+        await expect(page.locator('#message')).toHaveValue(testMessage);
+    });
+
+    test('keyboard navigation works correctly ⌨️', async ({ page }) => {
+        // Press Tab to focus first input
+        await page.keyboard.press('Tab');
+        let focusedElement = await page.evaluate(() => document.activeElement?.id);
+        expect(focusedElement).toBe('name');
+
+        // Tab through form fields
+        await page.keyboard.press('Tab');
+        focusedElement = await page.evaluate(() => document.activeElement?.id);
+        expect(focusedElement).toBe('email');
+
+        await page.keyboard.press('Tab');
+        focusedElement = await page.evaluate(() => document.activeElement?.id);
+        expect(focusedElement).toBe('message');
+    });
 });

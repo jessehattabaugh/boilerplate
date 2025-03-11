@@ -1,6 +1,9 @@
 node_modules
-# Temporary screenshot files
-**/*.tmp.*
-
-# Local Netlify folder
 .netlify
+
+# test logs
+/test-results
+/playwright-report
+
+# don't commit local screenshots
+**/*.tmp.*

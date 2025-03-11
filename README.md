@@ -16,14 +16,12 @@ This boilerplate includes modern web features:
 -   ♿ Accessibility features including prefers-reduced-motion support
 -   🔍 SEO optimized
 -   🧪 End-to-end testing with Playwright
--   📊 Performance testing and monitoring with baselines
 
 ## Project Documentation
 
 This project includes additional documentation in specific directories:
 
 -   **[Test Snapshots Documentation](/snapshots/README.md)** - Information about visual regression testing
--   **[Performance Baselines Documentation](/performance/README.md)** - Details on performance testing and baselines
 -   **[Component Documentation](./www/components/README.md)** - Documentation for web components
 -   **[Coding Guidelines](./.github/copiliot-instructions.md)** - Coding standards and best practices for this project
 
@@ -42,7 +40,6 @@ This project includes additional documentation in specific directories:
 -   `npm run test` - Run Playwright end-to-end tests
 -   `npm run test:ui` - Run Playwright tests with UI for debugging
 -   `npm run test:update-snapshots` - Update visual test baselines
--   `npm run test:update-performance` - Update performance baselines
 -   `npm run analyze` - Analyze the site with Lighthouse
 
 ## Web Components
@@ -63,7 +60,6 @@ This component provides a toggle for dark/light mode and demonstrates:
 -   Component styling
 -   Event handling
 -   Accessibility features
--   Performance optimization
 -   Visual regression testing
 
 For detailed documentation on this component and instructions for creating your own web components, see the [Web Components Documentation](./www/components/README.md).
@@ -81,6 +77,10 @@ The site respects the user's motion preferences:
 -   Disables View Transitions for users with motion sensitivity
 -   JavaScript animation logic is motion-preference aware
 
+```css
+/* Example of how animations respect user preferences */
+@media (prefers-reduced-motion: no-preference) {
+	.animate-element {
 ```css
 /* Example of how animations respect user preferences */
 @media (prefers-reduced-motion: no-preference) {

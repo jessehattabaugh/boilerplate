@@ -30,7 +30,6 @@ precacheAndRoute([
 	{ url: '/styles/print.css', revision: '1' },
 
 	// Components styles
-	{ url: '/components/theme-toggle.css', revision: '1' },
 	{ url: '/components/site-header.css', revision: '1' },
 	{ url: '/components/site-footer.css', revision: '1' },
 	{ url: '/components/image-carousel.css', revision: '1' },
@@ -43,7 +42,6 @@ precacheAndRoute([
 	{ url: '/scripts/config.js', revision: '1' },
 
 	// Web components
-	{ url: '/components/theme-toggle.js', revision: '1' },
 	{ url: '/components/site-header.js', revision: '1' },
 	{ url: '/components/site-footer.js', revision: '1' },
 	{ url: '/components/image-carousel.js', revision: '1' },

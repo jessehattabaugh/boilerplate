@@ -1,8 +1,3 @@
-import {
-	assertPerformanceBaseline,
-	getBrowserPerformanceMetrics,
-	getLighthouseScores,
-} from './utils/performance-utils.js';
 import { expect, test } from '@playwright/test';
 
 import fs from 'fs';
@@ -68,50 +63,6 @@ test.describe('Homepage', () => {
 		// Take a screenshot with the focus visible
 		await expect(page).toHaveScreenshot('homepage-keyboard-focus-baseline.png');
 	});
-
-	// Performance testing for homepage
-	test('homepage meets performance baseline requirements', async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-
-		// Collect browser performance metrics
-		const metrics = await getBrowserPerformanceMetrics(page);
-		console.log('Homepage performance metrics:', metrics);
-
-		// Compare against baseline
-		await assertPerformanceBaseline('homepage', metrics);
-
-		// Assert specific thresholds for critical metrics
-		expect(metrics.FCP).toBeLessThan(2000); // First Contentful Paint under 2s
-		expect(metrics.LCP).toBeLessThan(2500); // Largest Contentful Paint under 2.5s
-		expect(metrics.CLS).toBeLessThan(0.1); // Cumulative Layout Shift under 0.1
-	});
-
-	test('homepage passes Lighthouse performance thresholds', async ({ page, baseURL }) => {
-		test.skip(process.env.CI === 'true', 'Lighthouse tests are skipped in CI environment');
-
-		// Only run on chromium
-		test.skip(
-			page.context().browser().browserType().name() !== 'chromium',
-			'Lighthouse tests only run on Chromium',
-		);
-
-		// Visit the page first to ensure it's loaded and server is running
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
-
-		// Now run Lighthouse (using the base URL)
-		const url = baseURL || 'http://localhost:3000';
-		const scores = await getLighthouseScores(url);
-
-		// Save or compare with baseline
-		await assertPerformanceBaseline('homepage-lighthouse', scores);
-
-		// Check against absolute thresholds
-		expect(scores.performance).toBeGreaterThanOrEqual(90);
-		expect(scores.accessibility).toBeGreaterThanOrEqual(90);
-		expect(scores['best-practices']).toBeGreaterThanOrEqual(90);
-		expect(scores.seo).toBeGreaterThanOrEqual(90);
-	});
 });
 
 /**
@@ -126,54 +77,6 @@ test.describe('Index Page', () => {
 
 		// Check that the page title is correct
 		await expect(page).toHaveTitle(/Modern Web Boilerplate/);
-
-		// Check that the page has a theme toggle component
-		const themeToggle = page.locator('theme-toggle');
-		await expect(themeToggle).toBeVisible();
-	});
-
-	test('theme toggle changes theme 🌓', async ({ page }) => {
-		await page.goto('/');
-
-		// Find the theme toggle button
-		const themeToggleButton = page.locator('theme-toggle').locator('button');
-		await expect(themeToggleButton).toBeVisible();
-
-		// Get initial theme
-		const initialTheme = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-		);
-
-		// Click the toggle
-		await themeToggleButton.click();
-
-		// Check that the theme changed
-		const newTheme = await page.evaluate(() =>
-			document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-		);
-		expect(newTheme).not.toBe(initialTheme);
-	});
-
-	test('theme toggle cycles through options 🔄', async ({ page }) => {
-		await page.goto('/');
-
-		// Find the theme toggle button
-		const themeToggleButton = page.locator('theme-toggle').locator('button');
-
-		// Click through all three states (light -> dark -> system)
-		// First click: Should go to next state
-		await themeToggleButton.click();
-		let label = await page.locator('theme-toggle').locator('.label').textContent();
-
-		// Second click: Should go to next state
-		await themeToggleButton.click();
-		let secondLabel = await page.locator('theme-toggle').locator('.label').textContent();
-		expect(secondLabel).not.toBe(label);
-
-		// Third click: Should go back to first state
-		await themeToggleButton.click();
-		let thirdLabel = await page.locator('theme-toggle').locator('.label').textContent();
-		expect(thirdLabel).not.toBe(secondLabel);
 	});
 
 	test('takes visual snapshot of the page 📸', async ({ page }) => {
@@ -205,9 +108,9 @@ test.describe('Accessibility', () => {
 	});
 });
 
-// Performance tests
+// Simple performance check without using performance-utils
 test.describe('Performance', () => {
-	test('page loads within performance budget ⚡', async ({ page }) => {
+	test('page loads within reasonable time ⚡', async ({ page }) => {
 		// Navigate to the page
 		const navigationStart = Date.now();
 		await page.goto('/');
@@ -216,11 +119,11 @@ test.describe('Performance', () => {
 		// Basic performance check - page should load in under 1 second in test environment
 		expect(navigationEnd - navigationStart).toBeLessThan(1000);
 
-		// Get performance metrics from the browser
+		// Log simplified performance metrics without external dependencies
 		const performanceTimings = await page.evaluate(() => JSON.stringify(performance.timing));
 		const timings = JSON.parse(performanceTimings);
 
-		// Log performance metrics for reference
+		// Log basic metrics for reference
 		console.info('📊 Performance metrics:', {
 			ttfb: timings.responseStart - timings.requestStart,
 			domLoaded: timings.domContentLoadedEventEnd - timings.navigationStart,

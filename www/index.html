@@ -15,9 +15,9 @@
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="/styles/all.css">
-	<link rel="stylesheet" media="screen and (prefers-color-scheme: light)" href="/styles/light.css">
-	<link rel="stylesheet" media="screen and (min-width: 30em)" href="/styles/wide.css">
 	<link rel="stylesheet" href="/styles/index.css">
+	<link rel="stylesheet" href="/styles/wide.css" media="(min-width: 960px)">
+	<link rel="stylesheet" href="/styles/print.css" media="print">
 
 	<!-- JavaScript that can start now -->
 	<script type="module" async src="/scripts/async.js"></script>
@@ -27,8 +27,28 @@
 </head>
 
 <body>
-	<p>your site here</p>
-	<theme-toggle></theme-toggle>
+	<a href="#main-content" class="sr-only focus-visible">Skip to main content</a>
+
+	<header>
+		<nav aria-label="Main navigation">
+			<ul>
+				<li><a href="/index.html" aria-current="page">Home</a></li>
+				<li><a href="/about.html">About</a></li>
+				<li><a href="/contact.html">Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main id="main-content" class="container" tabindex="-1">
+		<h1>Modern Web Boilerplate</h1>
+		<p>Your site content here</p>
+	</main>
+
+	<footer>
+		<p>Built with modern web standards</p>
+	</footer>
+
+	<script type="module" src="/scripts/index.js"></script>
 </body>
 
 </html>

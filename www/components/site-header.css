@@ -1,0 +1,34 @@
+/**
+ * Site Header Component Styles
+ */
+:host {
+    display: block;
+}
+
+header {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 60em;
+    margin: auto;
+    padding: 0 var(--space-4);
+}
+
+::slotted(ul) {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 480px) {
+    ::slotted(ul) {
+        gap: var(--space-4);
+    }
+}

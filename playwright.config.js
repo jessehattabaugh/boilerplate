@@ -27,15 +27,6 @@ export default defineConfig({
 			// These will be ignored by git until accepted as baselines
 			snapshotPathTemplate: '{snapshotDir}/{arg}.tmp{ext}',
 		},
-		// Set performance thresholds
-		toPassPerformanceThreshold: {
-			// Core Web Vitals thresholds
-			firstContentfulPaint: 2000, // 2 seconds
-			largestContentfulPaint: 2500, // 2.5 seconds
-			timeToInteractive: 3500, // 3.5 seconds
-			cumulativeLayoutShift: 0.1, // Google's recommended maximum
-			totalBlockingTime: 200, // 200 milliseconds
-		},
 	},
 	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
