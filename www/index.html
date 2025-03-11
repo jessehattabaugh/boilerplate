@@ -19,36 +19,77 @@
 	<link rel="stylesheet" href="/styles/wide.css" media="(min-width: 960px)">
 	<link rel="stylesheet" href="/styles/print.css" media="print">
 
-	<!-- JavaScript that can start now -->
+	<!-- JavaScript modules with performance attributes -->
 	<script type="module" async src="/scripts/async.js"></script>
-
-	<!-- JavaScript that can wait until the document is parsed -->
 	<script type="module" defer src="/scripts/index.js"></script>
 </head>
 
 <body>
 	<a href="#main-content" class="sr-only focus-visible">Skip to main content</a>
 
-	<header>
-		<nav aria-label="Main navigation">
-			<ul>
-				<li><a href="/index.html" aria-current="page">Home</a></li>
-				<li><a href="/about.html">About</a></li>
-				<li><a href="/contact.html">Contact</a></li>
-			</ul>
-		</nav>
-	</header>
+	<site-header>
+		<ul>
+			<li><a href="/index.html" aria-current="page">Home</a></li>
+			<li><a href="/about.html">About</a></li>
+			<li><a href="/contact.html">Contact</a></li>
+		</ul>
+		<theme-toggle></theme-toggle>
+	</site-header>
 
 	<main id="main-content" class="container" tabindex="-1">
-		<h1>Modern Web Boilerplate</h1>
-		<p>Your site content here</p>
+		<section class="hero">
+			<div class="hero-overlay"></div>
+			<div class="hero-content">
+				<h1>Modern Web Boilerplate</h1>
+				<p>A lightweight, accessible, and modern starting point for web projects</p>
+				<a href="/about.html" class="cta-button">Learn More</a>
+			</div>
+		</section>
+		
+		<section class="features">
+			<article class="feature-card">
+				<h2>Modern JavaScript</h2>
+				<p>ES Modules, Web Components, and clean code patterns for maintainable projects</p>
+			</article>
+			
+			<article class="feature-card">
+				<h2>Accessibility First</h2>
+				<p>WCAG-compliant markup, keyboard navigation, and screen reader support built-in</p>
+			</article>
+			
+			<article class="feature-card">
+				<h2>Performance Focused</h2>
+				<p>Optimized for Core Web Vitals and fast loading on all devices</p>
+			</article>
+		</section>
+
+		<section aria-labelledby="testimonials-heading">
+			<h2 id="testimonials-heading">What People Say</h2>
+			<image-carousel auto-play interval="5000" aria-label="Testimonials carousel">
+				<carousel-item>
+					<blockquote class="testimonial">
+						<p>This boilerplate saved me hours of setup time. Highly recommended!</p>
+						<footer class="testimonial-author">
+							<cite>Alex Chen, Web Developer</cite>
+						</footer>
+					</blockquote>
+				</carousel-item>
+				<carousel-item>
+					<blockquote class="testimonial">
+						<p>The accessibility features are top-notch and helped me build an inclusive web app.</p>
+						<footer class="testimonial-author">
+							<cite>Jordan Taylor, UX Designer</cite>
+						</footer>
+					</blockquote>
+				</carousel-item>
+			</image-carousel>
+		</section>
 	</main>
 
-	<footer>
-		<p>Built with modern web standards</p>
-	</footer>
-
-	<script type="module" src="/scripts/index.js"></script>
+	<site-footer>
+		<p>Built with <span aria-hidden="true">❤️</span><span class="sr-only">love</span> and modern web standards</p>
+		<p>&copy; <span id="current-year">2023</span> Modern Web Boilerplate</p>
+	</site-footer>
 </body>
 
 </html>

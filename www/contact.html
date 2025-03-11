@@ -25,6 +25,7 @@
                 <li><a href="/contact.html" aria-current="page">Contact</a></li>
             </ul>
         </nav>
+        <theme-toggle></theme-toggle>
     </header>
 
     <main id="main-content" class="container" tabindex="-1">
@@ -63,29 +64,27 @@
             </div>
             <button type="submit" class="submit-button">
                 <span class="button-text">Send Message</span>
-                <span class="sr-only">(opens email client)</span>
+                <span class="sr-only">(submits form)</span>
             </button>
         </form>
-        <p id="formStatus" aria-live="polite" role="status"></p>
+        <div id="formStatus" aria-live="polite" role="status"></div>
     </main>
 
-    <footer>
-        <p>Built with modern web standards</p>
-    </footer>
+    <site-footer></site-footer>
 
     <script type="module">
-        // Handle form submission
+        // Import required components
+        import { validateEmail } from '/scripts/form-utils.js';
+
+        // Form validation functions
         const form = document.getElementById('contactForm');
         const formStatus = document.getElementById('formStatus');
-        const nameError = document.getElementById('name-error');
-        const emailError = document.getElementById('email-error');
-        const messageError = document.getElementById('message-error');
 
-        // Client-side validation
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
+        /**
+         * Show an error message for a form field
+         * @param {HTMLElement} element - The form element with an error
+         * @param {string} message - The error message to display
+         */
         function showError(element, message) {
             const errorEl = document.getElementById(`${element.id}-error`);
             if (errorEl) {
@@ -94,6 +93,10 @@
             }
         }
 
+        /**
+         * Clear an error message for a form field
+         * @param {HTMLElement} element - The form element to clear errors for
+         */
         function clearError(element) {
             const errorEl = document.getElementById(`${element.id}-error`);
             if (errorEl) {
@@ -109,6 +112,7 @@
 
             // Clear previous errors
             formStatus.textContent = '';
+            formStatus.className = '';
             clearError(form.name);
             clearError(form.email);
             clearError(form.message);
@@ -134,25 +138,18 @@
                 isValid = false;
             }
 
-            if (!isValid) {
-                return;
-            }
+            if (!isValid) return;
 
             formStatus.textContent = 'Sending...';
+            console.log('📨 Submitting form...');
 
             try {
                 const formData = new FormData(form);
-                const data = {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    message: formData.get('message')
-                };
+                const data = Object.fromEntries(formData);
 
                 const response = await fetch('/.netlify/functions/contact-form', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
 
@@ -162,11 +159,12 @@
                     formStatus.textContent = 'Message sent successfully! We\'ll get back to you soon.';
                     formStatus.className = 'success';
                     form.reset();
+                    console.log('✅ Form submitted successfully!');
                 } else {
                     throw new Error(result.message || 'Failed to send message');
                 }
             } catch (error) {
-                console.error('Failed to send message:', error);
+                console.error('❌ Failed to send message:', error);
                 formStatus.textContent = error.message || 'Failed to send message. Please try again.';
                 formStatus.className = 'error';
             }
