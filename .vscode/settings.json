@@ -1,14 +1,47 @@
 {
-	"github.copilot.chat.commitMessageGeneration.instructions": [
-		{
-			"file": "CHANGELOG.md",
-			"if these changes add or remove functionality ensure that they have been mentioned in the CHANGELOG.md file": "changed functionality"
-		}
-	],
-	"github.copilot.chat.commitMessageGeneration.enabled": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "always"
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"github.copilot.chat.codeGeneration.instructions": [
+		{
+			"file": "CONTRIBUTING.md"
+		}
+	],
+	"github.copilot.chat.testGeneration.instructions": [
+		{
+			"file": "CONTRIBUTING.md"
+		}
+	],
+	"github.copilot.chat.reviewSelection.instructions": [
+		{
+			"file": "CONTRIBUTING.md"
+		}
+	],
+	"github.copilot.chat.reviewSelection.enabled": true,
+	"github.copilot.chat.codeGeneration.useInstructionFiles": true,
+	"github.copilot.chat.codesearch.enabled": true,
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{
+			"file": "CONTRIBUTING.md"
+		}
+	],
+	"github.copilot.advanced": {
+		"commitMessageGeneration": {
+			"enabled": true
+		},
+		"codeGeneration": {
+			"enabled": true
+		},
+		"testGeneration": {
+			"enabled": true
+		},
+		"reviewSelection": {
+			"enabled": true
+		},
+		"codesearch": {
+			"enabled": true
+		}
 	}
 }

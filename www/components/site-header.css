@@ -1,34 +1,182 @@
 /**
  * Site Header Component Styles
+ * 🧭 Enhanced with responsive design and better aesthetics
  */
 :host {
-    display: block;
+	display: block;
+	box-shadow: var(--shadow-sm);
+	background-color: var(--color-background);
+	position: sticky;
+	top: 0;
+	z-index: var(--z-index-sticky);
+	border-bottom: 1px solid var(--color-border);
 }
 
 header {
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border);
+	padding: var(--space-4) 0;
+}
+
+.container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 80rem;
+	margin: auto;
+	padding: 0 var(--space-4);
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	font-weight: var(--font-weight-bold);
+	font-size: 1.5rem;
+}
+
+.logo a {
+	color: var(--color-text);
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+}
+
+.logo-text {
+	background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-weight: 700;
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 60em;
-    margin: auto;
-    padding: 0 var(--space-4);
+	flex: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.nav-links {
+	display: flex;
+	justify-content: center;
 }
 
 ::slotted(ul) {
-    display: flex;
-    gap: var(--space-6);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+	display: flex;
+	gap: var(--space-8);
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-@media (max-width: 480px) {
-    ::slotted(ul) {
-        gap: var(--space-4);
-    }
+::slotted(ul li) {
+	position: relative;
+}
+
+::slotted(ul a) {
+	padding: var(--space-2) var(--space-1);
+	text-decoration: none;
+	color: var(--color-text-secondary);
+	font-weight: var(--font-weight-medium);
+	transition: color var(--transition-normal) ease;
+	position: relative;
+}
+
+::slotted(ul a:hover) {
+	color: var(--color-primary);
+	text-decoration: none;
+}
+
+::slotted(ul a[aria-current="page"]) {
+	color: var(--color-primary);
+}
+
+::slotted(ul a[aria-current="page"])::after {
+	content: "";
+	position: absolute;
+	bottom: -3px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: var(--color-primary);
+	border-radius: 2px;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+}
+
+.menu-toggle {
+	display: none;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 30px;
+	height: 21px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	z-index: 10;
+}
+
+.menu-toggle .bar {
+	height: 3px;
+	width: 100%;
+	background-color: var(--color-text);
+	border-radius: 10px;
+	transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+	.container {
+		flex-wrap: wrap;
+	}
+
+	.menu-toggle {
+		display: flex;
+		margin-left: auto;
+	}
+
+	nav {
+		order: 3;
+		flex-basis: 100%;
+	}
+
+	.nav-links {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-height: 0;
+		overflow: hidden;
+		transition: all 0.3s ease-in-out;
+	}
+
+	.nav-links.active {
+		max-height: 300px;
+		margin-top: var(--space-4);
+	}
+
+	::slotted(ul) {
+		flex-direction: column;
+		width: 100%;
+		gap: var(--space-4);
+	}
+
+	.header-actions {
+		order: 2;
+	}
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+	:host {
+		background-color: var(--color-background-dark);
+		border-bottom-color: var(--color-border-dark);
+	}
+
+	.menu-toggle .bar {
+		background-color: var(--color-text-dark);
+	}
+
+	.logo a {
+		color: var(--color-text-dark);
+	}
 }

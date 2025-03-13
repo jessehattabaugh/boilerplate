@@ -1,22 +1,13 @@
 {
 	"compilerOptions": {
-			"target": "ES2022",
-			"module": "ESNext",
-			"moduleResolution": "node",
-			"checkJs": true,
-			"allowJs": true,
-			"noEmit": true,
-			"strict": true,
-			"baseUrl": "./",
-			"paths": {
-				"/*": ["www/*"]
-			}
+		"checkJs": true,
+		"lib": ["webworker", "dom", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"target": "esnext",
+		"typeRoots": ["./node_modules/@types", "./types"]
 	},
-	"include": [
-		"www/**/*.js",
-		"test/**/*.js"
-, "bin/accept-snapshots.js"	],
-	"exclude": [
-		"node_modules"
-	]
+	"exclude": ["node_modules"],
+	"include": ["./types.d.ts", "./types/**/*.d.ts", "./www/**/*.js"]
 }
