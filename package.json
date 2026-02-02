@@ -3,6 +3,7 @@
 		"@eslint/compat": "latest",
 		"@eslint/eslintrc": "latest",
 		"@eslint/js": "latest",
+		"@netlify/functions": "latest",
 		"@playwright/test": "latest",
 		"eslint": "latest",
 		"glob": "latest",

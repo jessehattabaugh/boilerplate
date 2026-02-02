@@ -1,6 +1,5 @@
 {
 	"recommendations": [
-		"amatiasq.sort-imports",
 		"christian-kohler.npm-intellisense",
 		"dbaeumer.vscode-eslint",
 		"editorconfig.editorconfig",
