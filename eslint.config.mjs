@@ -70,7 +70,7 @@ export default [
 			'require-atomic-updates': 'warn',
 		},
 	},
-	// Add specific configuration for different environments
+	// specific configuration for different environments
 	{ files: ['**/**.[js,mjs]'], languageOptions: { globals: { ...globals.node } } },
 	{ files: ['**/sw.js'], languageOptions: { globals: { ...globals.serviceworker } } },
 	{ files: ['**/workers/**.js'], languageOptions: { globals: { ...globals.worker } } },

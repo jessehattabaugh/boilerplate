@@ -13,6 +13,7 @@
 	"scripts": {
 		"accept": "node bin/accept-snapshots.js",
 		"build": "node bin/prepare-screenshots.js",
+		"deploy": "netlify deploy",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "netlify dev",
