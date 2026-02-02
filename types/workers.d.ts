@@ -1,1 +1,1 @@
-type WorkerType = 'Hello Worker';
+type WorkerMessage = 'Hello Worker';

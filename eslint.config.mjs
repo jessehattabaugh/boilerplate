@@ -19,22 +19,12 @@ export default [
 	...compat.extends('eslint:recommended'),
 	{
 		languageOptions: {
-			globals: {
-				...globals.browser,
-				...globals.node,
-				...globals.serviceworker,
-				...globals.worker,
-				workbox: 'readonly',
-			},
+			globals: { ...globals.browser, ...globals.node, workbox: 'readonly' },
 
 			ecmaVersion: 'latest',
 			sourceType: 'module',
 
-			parserOptions: {
-				ecmaFeatures: {
-					impliedStrict: true,
-				},
-			},
+			parserOptions: { ecmaFeatures: { impliedStrict: true } },
 		},
 
 		rules: {
@@ -80,13 +70,9 @@ export default [
 			'require-atomic-updates': 'warn',
 		},
 	},
-	// Add specific configuration for service worker files
-	{
-		files: ['**/sw.js'],
-		languageOptions: {
-			globals: {
-				workbox: 'readonly',
-			},
-		},
-	},
+	// Add specific configuration for different environments
+	{ files: ['**/**.[js,mjs]'], languageOptions: { globals: { ...globals.node } } },
+	{ files: ['**/sw.js'], languageOptions: { globals: { ...globals.serviceworker } } },
+	{ files: ['**/workers/**.js'], languageOptions: { globals: { ...globals.worker } } },
+	{ files: ['**/scripts/**.js'], languageOptions: { globals: { ...globals.browser } } },
 ];

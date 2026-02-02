@@ -1,4 +1,9 @@
-// @ts-check
+// test linting set up for various environments
+void process; // Node
+//void Document; // Browser
+//void Clients; // ServiceWorker
+//void DedicatedWorkerGlobalScope; // Worker
+
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -25,7 +30,7 @@ export default defineConfig({
 			maxDiffPixelRatio: 0.05,
 			// Use a naming convention that includes "tmp" for new snapshots
 			// These will be ignored by git until accepted as baselines
-			snapshotPathTemplate: '{snapshotDir}/{arg}.tmp{ext}',
+			pathTemplate: '{snapshotDir}/{arg}.tmp{ext}',
 		},
 	},
 	fullyParallel: true,
@@ -42,31 +47,12 @@ export default defineConfig({
 	},
 
 	projects: [
-		{
-			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] },
-		},
-		{
-			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] },
-		},
-		{
-			name: 'webkit',
-			use: { ...devices['Desktop Safari'] },
-		},
-		{
-			name: 'mobile-chrome',
-			use: { ...devices['Pixel 5'] },
-		},
-		{
-			name: 'mobile-safari',
-			use: { ...devices['iPhone 12'] },
-		},
+		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+		{ name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+		{ name: 'webkit', use: { ...devices['Desktop Safari'] } },
+		{ name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+		{ name: 'mobile-safari', use: { ...devices['iPhone 12'] } },
 	],
 
-	webServer: {
-		command: 'npm run start',
-		port: 3000,
-		reuseExistingServer: !process.env.CI,
-	},
+	webServer: { command: 'npm run start', port: 3000, reuseExistingServer: !process.env.CI },
 });
