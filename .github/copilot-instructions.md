@@ -1,39 +1,117 @@
-# 🔮 Summoning Instructions for the Digital Familiar
+---
+description: JavaScript code style for the project.
+applyTo: '**.js'
+---
 
-## 📜 Technical Incantations & Coding Rituals
+- Use explicit and descriptive identifiers for all classes, functions, variables, and parameters.
+- New Functions should only be created for callbacks, or routines with more than one callsite.
+- Prefer deeply nested code over guard clauses or helper functions to maintain linear execution paths.
+- Use ES Modules to organize shared code.
+- Move conditional logic up to the caller (centralize branching)
+- Move iteration down into batch-oriented functions, so hot loops have fewer branches and can vectorize better.
 
-- **Indentation:** Use tabs for indentation—each level deeper into the code is a step further into the void.
-- **Typing:** Always provide JSDoc type annotations as arcane sigils to guide the initiated.
-- **Testing:** Every new functionality or bug fix must begin with a failing end-to-end test that exercises actual web pages.
-  - Only create tests that interact with real HTML pages through the user interface.
-  - Do not create mock objects, unit tests, or test fixtures.
-  - Test files should correspond to actual pages in the `/www` directory.
-  - Focus tests on what real users would see and interact with—the visible manifestations of our digital entities.
 
-- **Console Logging:**
-  - Emoji usage is required for clarity and quick visual identification in the void.
-  - Use exactly two emojis per console message: one shared per file (domain), one unique per message.
-  - Console methods:
-    - `console.debug()`: Minor information, loop iterations, internal workings of the void.
-    - `console.info()`: Useful but non-critical messages from the digital entities.
-    - `console.log()`: General information useful to those traversing the labyrinth.
-    - `console.warn()`: Important notices or potential traps users must be wary of.
-    - `console.error()`: Only for unrecoverable corruption; always include relevant debugging information.
+## Use Modern Syntax and APIs
 
-- **Function Creation:** Only summon new functions for code reuse:
-  - Functions must have at least two call sites or be passed as callbacks.
-  - Avoid unnecessary abstraction or creating functions solely for organizing code—don't summon entities unnecessarily.
+- Avoid creating new variable names by using destructuring assignment when possible.
+- Use async/await for handling asynchronous operations instead of Promises directly.
+- Handle errors using try/catch blocks.
+- Top-level module exports shouldn't use => syntax, to enable proper hoisting and named references
+- Use == and != for comparisons unless stricter comparisons are necessary.
+- Use fetch API for network requests.
 
-- **Browser Compatibility:** Support all modern browsers; no compatibility with ancient relics (Internet Explorer).
-- **File System and Tools:**
-  - Avoid Windows-specific tools like `rimraf`, `cross-env`, or `mkdirp`.
-  - Prefer traditional control structures (`if/else`, `switch`, `while`) for clarity in the ritual.
 
-- **CSS Guidelines:**
-  - Use simple, shallow selectors to invoke the right elements without disturbing others.
-  - Avoid deeply nested CSS rules as they confuse the digital entities.
+## Use Logging Liberally
 
-- **JavaScript Modules:** Use ES modules exclusively—each module a page from a different grimoire—and employ modern JavaScript features such as destructuring like dissection and template literals like incantations.
+- Use appropriate console methods:
+  - `console.debug()`: Minor information, loop iterations, internal details.
+  - `console.info()`: Useful but non-critical messages.
+  - `console.log()`: General information useful to end-users.
+  - `console.warn()`: Important notices or potential issues users must see.
+  - `console.error()`: Only for unrecoverable errors; always include relevant debugging information.
+- Use exactly three emojis per console message: one shared per file, one per function, and one per message. Emojis should be unique project wide and relevant to the context. Ex : 👥 for the UserAuthentication module, 📖 for the login function, 🔑 for the "authenticating" message and 🍭 for the "success" message.
 
-- **Testing:** use describe() to describe what you are testing, create nested describes to group similar tests. always use features of the DOM that are important for screenreaders, such as aria roles to select elements for testing.
+```javascript
+console.info("👥📖🔑 Authenticating user...");
+console.log("👥📖🍭 Successfully logged in");
+```
 
+
+## Type Definitions
+- Use only JavaScript syntax, no Typescript syntax (except for `.d.ts` files).
+- Include type definitions via JSDoc comments.
+- Define shared types in a separate `.d.ts` file.
+- Keep all `d.ts` files in the `types/` directory.
+
+
+---
+applyTo: 'www/styles/**.css',
+description: CSS code style for the project.
+---
+
+## Browser Support and Modern APIs
+- Assume latest stable Chromium/WebKit/Gecko; ignore legacy browser support.
+- Gate features with `@supports` rather than fallbacks.
+- Write CSS that stands alone without build steps.
+
+## Layout and Positioning
+- Prefer native CSS capabilities over JavaScript for layout, animation, and UI state.
+- Prefer Grid, Subgrid, and Flexbox over floats or absolute positioning.
+- Use Masonry layouts (`grid-template-rows: masonry`) where appropriate.
+- Use CSS Anchor Positioning (`anchor-name`, `position-anchor`, `inset-area`) for contextual UI.
+
+## Cascade and Specificity
+- Use the least specificity possible.
+- Use Cascade Layers (`@layer`) to express intent and ordering; avoid specificity hacks.
+- Use modern selectors (`:has()`, `:where()`, `:is()`) to reduce specificity.
+
+## Responsive and Container Design
+- Use Container Queries (`@container`, size/style queries) instead of viewport media queries.
+- Respect user preferences (`prefers-reduced-motion`, `prefers-color-scheme`, `prefers-contrast`).
+
+## Component Styling
+- Use `@scope` for component-level styling; avoid deep descendant selectors.
+- Co-locate styles by component; keep global styles minimal and layered.
+
+## Properties and Values
+- Use logical properties (`margin-inline`, `block-size`) instead of physical ones.
+- Use modern color spaces and functions (`oklch()`, `lab()`, `color-mix()`).
+- Treat custom properties as first-class design tokens; avoid preprocessors.
+
+## Animation and Transitions
+- Prefer declarative animations (`@keyframes`, `transition-behavior`) over JS.
+- Use the View Transitions API (`::view-transition-*`) for page and component transitions.
+
+
+---
+applyTo: 'www/**.html',
+description: HTML code style for the project.
+---
+
+## Semantic Structure
+
+- Write semantic HTML first; use ARIA only when semantics are insufficient.
+- Prefer native elements (`dialog`, `details`, `popover`, `menu`, `form`) over custom widgets.
+- Favor landmarks (`main`, `nav`, `section`, `article`, `aside`) over generic `div`s.
+- Use Web Components only when native elements cannot express the behavior.
+
+## Architecture and Encapsulation
+
+- Use Declarative Shadow DOM when encapsulation is beneficial.
+- Keep the DOM flat and intentional to support `@scope` and `:has()`.
+- Design markup around intentional containment boundaries for Container Queries.
+- Structure markup to support View Transitions (stable IDs, meaningful DOM continuity).
+
+## State and Interactivity
+
+- Use data attributes for state and hooks, not class-based state machines.
+- Follow progressive enhancement: HTML works without JS; JS upgrades behavior.
+- Use native forms and validation before adding JavaScript.
+- Prefer URL-addressable state over client-only routing when feasible.
+
+## Modern Practices
+
+- Assume modern attributes (`loading`, `fetchpriority`, `popover`, `inert`).
+- Keep markup style-agnostic; let CSS handle layout and presentation.
+- Assume ES modules and minimal or no build tooling.
+- Optimize for clarity, inspectability, and platform leverage over abstraction.

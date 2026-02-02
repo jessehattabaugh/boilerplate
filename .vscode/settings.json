@@ -1,47 +1,5 @@
 {
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "always"
-	},
+	"editor.codeActionsOnSave": { "source.fixAll.eslint": "always" },
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"github.copilot.chat.codeGeneration.instructions": [
-		{
-			"file": "CONTRIBUTING.md"
-		}
-	],
-	"github.copilot.chat.testGeneration.instructions": [
-		{
-			"file": "CONTRIBUTING.md"
-		}
-	],
-	"github.copilot.chat.reviewSelection.instructions": [
-		{
-			"file": "CONTRIBUTING.md"
-		}
-	],
-	"github.copilot.chat.reviewSelection.enabled": true,
-	"github.copilot.chat.codeGeneration.useInstructionFiles": true,
-	"github.copilot.chat.codesearch.enabled": true,
-	"github.copilot.chat.commitMessageGeneration.instructions": [
-		{
-			"file": "CONTRIBUTING.md"
-		}
-	],
-	"github.copilot.advanced": {
-		"commitMessageGeneration": {
-			"enabled": true
-		},
-		"codeGeneration": {
-			"enabled": true
-		},
-		"testGeneration": {
-			"enabled": true
-		},
-		"reviewSelection": {
-			"enabled": true
-		},
-		"codesearch": {
-			"enabled": true
-		}
-	}
+	"editor.formatOnSave": true
 }

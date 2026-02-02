@@ -1,61 +1,10 @@
-# 🚀 Project Name
+# Project Name
 
-<!--
-INSTRUCTIONS: Replace this section with a brief description of your project.
-Delete these instructions and provide:
-1. A concise explanation of what your project does
-2. Why it's useful or important
-3. A compelling hook to interest potential users
--->
+A concise explanation of what your project does. Why it's useful or important. A compelling hook to interest potential users. The problem it solves. Key features and benefits. Target audience. Any unique selling points
 
-## 📋 Overview
+## Getting Started
 
-<!--
-INSTRUCTIONS: Replace this section with details about your project.
-Include information such as:
-- The problem it solves
-- Key features and benefits
-- Target audience
-- Any unique selling points
--->
-
-## 🎯 Project Goals
-
-<!--
-INSTRUCTIONS: Outline the main goals and objectives of the project.
-For example:
--->
-
-- Provide a seamless user experience across all devices
-- Ensure high performance and accessibility
-- Create a modular, maintainable codebase
-- Support offline functionality
-
-## 🛣️ Development Roadmap
-
-### Milestone 1: Foundation
-- [x] Project setup
-- [x] Core functionality implementation
-- [x] Basic testing framework
-
-### Milestone 2: Enhanced Features
-- [ ] Implement advanced user interactions
-- [ ] Add responsive design improvements
-- [ ] Optimize performance
-
-### Milestone 3: Expansion
-- [ ] Add internationalization support
-- [ ] Implement additional plugins
-- [ ] Create comprehensive documentation
-
-## 🚀 Getting Started
-
-### Quick Start
-
-<!--
-INSTRUCTIONS: Provide simple instructions for users to get started quickly.
-Keep this section brief and non-technical.
--->
+You must have Node.js installed.
 
 ```bash
 # Clone the repository
@@ -71,25 +20,20 @@ npm install
 npm start
 ```
 
-## 📝 Documentation
+## Tests
 
-For more detailed information, please refer to:
+This project uses Playwright for end-to-end tests
 
-- [Contributing Guide](CONTRIBUTING.md) - Information for developers and contributors
-- [Change Log](CHANGELOG.md) - Version history and changes
+To run the tests
 
-## 👥 Contributors
+```bash
+npm test
+```
 
-<!--
-INSTRUCTIONS: Acknowledge the people who have contributed to the project.
-You can use GitHub's automatic contributors list or manually list key contributors.
--->
+## Deployment
 
-## 📄 License
+This project is built to be deployed to Netlify.
 
-<!--
-INSTRUCTIONS: Specify the license under which your project is released.
-For example:
--->
-
-This project is licensed under the [MIT License](LICENSE).
+```bash
+npm run deploy
+```
