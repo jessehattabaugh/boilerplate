@@ -1,0 +1,1 @@
+type NetlifyType = 'Hello Netlify';

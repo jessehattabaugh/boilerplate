@@ -1,0 +1,5 @@
+{
+	"extends": "../jsconfig.base.json",
+	"compilerOptions": { "lib": ["ESNext"], "types": ["../types/netlify.d.ts"] },
+	"include": ["**/*.js"]
+}

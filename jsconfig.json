@@ -1,13 +1,8 @@
 {
+	"extends": "./jsconfig.base.json",
 	"compilerOptions": {
-		"checkJs": true,
-		"lib": ["webworker", "dom", "esnext"],
-		"module": "esnext",
-		"moduleResolution": "node",
-		"noImplicitAny": true,
-		"target": "esnext",
-		"typeRoots": ["./node_modules/@types", "./types"]
+		"lib": ["ESNext"]
 	},
-	"exclude": ["node_modules"],
-	"include": ["./types.d.ts", "./types/**/*.d.ts", "./www/**/*.js"]
+	"include": ["**/*.js", "**/*.mjs"],
+	"exclude": ["www/**", "netlify/**", "node_modules/**"]
 }

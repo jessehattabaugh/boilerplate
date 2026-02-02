@@ -1,0 +1,8 @@
+{
+	"extends": "../../jsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"types": ["../../types/scripts.d.ts"]
+	},
+	"include": ["**/*.js"]
+}

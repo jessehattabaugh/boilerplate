@@ -1,0 +1,1 @@
+type WorkerType = 'Hello Worker';
