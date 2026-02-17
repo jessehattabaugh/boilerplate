@@ -1,5 +1,6 @@
 node_modules
 .netlify
+deno.lock
 
 # test logs
 /test-results

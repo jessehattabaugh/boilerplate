@@ -1,49 +1,12 @@
 /**
- * Light Mode Styles
- * 🌞 Styles for light mode, overrides any dark mode defaults
- */
-
-/* styles for light mode */
+* styles for light mode, note that this file applies to print as well, only set color related properties
+* @media print, (prefers-color-scheme: light)
+*/
 :root {
-	--color-text: #121212;
-	--color-background: #ffffff;
-	--color-primary: #6200ee;
-	--color-secondary: #03dac5;
-	--color-accent: #b00020;
-
-	/* Explicitly set color scheme for light mode */
-	color-scheme: light;
+	--color-background: white;
+	--color-text: black;
 }
 
 html {
-	color: var(--color-text);
-	background-color: var(--color-background);
-}
-
-@media (prefers-color-scheme: dark) {
-	:root:not(.light-mode) {
-		/* Override light mode colors with dark mode versions */
-		background-color: var(--color-background-dark);
-		color: var(--color-text-dark);
-		color-scheme: dark;
-	}
-
-	/* Heading colors in dark mode */
-	:root:not(.light-mode) h1,
-	:root:not(.light-mode) h2,
-	:root:not(.light-mode) h3,
-	:root:not(.light-mode) h4,
-	:root:not(.light-mode) h5,
-	:root:not(.light-mode) h6 {
-		color: var(--color-text-dark);
-	}
-
-	/* Link colors in dark mode */
-	:root:not(.light-mode) a {
-		color: var(--color-primary-light);
-	}
-
-	:root:not(.light-mode) a:hover {
-		color: var(--color-primary-light);
-	}
+	color-scheme: light;
 }

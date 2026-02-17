@@ -54,6 +54,12 @@ description: CSS code style for the project.
 - Gate features with `@supports` rather than fallbacks.
 - Write CSS that stands alone without build steps.
 
+## Properties and Values
+- Keep rules sorted alphabetically within each selector block.
+- Treat custom properties as first-class design tokens; avoid preprocessors.
+- Use logical properties (`margin-inline`, `block-size`) instead of physical ones.
+- Use modern color spaces and functions (`oklch()`, `lab()`, `color-mix()`).
+
 ## Layout and Positioning
 - Prefer native CSS capabilities over JavaScript for layout, animation, and UI state.
 - Prefer Grid, Subgrid, and Flexbox over floats or absolute positioning.
@@ -72,11 +78,6 @@ description: CSS code style for the project.
 ## Component Styling
 - Use `@scope` for component-level styling; avoid deep descendant selectors.
 - Co-locate styles by component; keep global styles minimal and layered.
-
-## Properties and Values
-- Use logical properties (`margin-inline`, `block-size`) instead of physical ones.
-- Use modern color spaces and functions (`oklch()`, `lab()`, `color-mix()`).
-- Treat custom properties as first-class design tokens; avoid preprocessors.
 
 ## Animation and Transitions
 - Prefer declarative animations (`@keyframes`, `transition-behavior`) over JS.

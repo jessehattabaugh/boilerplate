@@ -1,81 +1,47 @@
-/* Print styles */
-@media print {
-	/* Reset all colors to black on white for better printing */
-	* {
-		background-color: #fff !important;
-		color: #000 !important;
-		box-shadow: none !important;
-		text-shadow: none !important;
-		filter: none !important;
-		-ms-filter: none !important;
-		font-family: serif !important;
-	}
+/** what it looks like on paper
+* @see: https://www.w3.org/TR/css-page-3/
+*/
+:root {
+	--mourners: 3;  /* widows and orphans, get it? */
+}
 
-	/* Hide unnecessary elements when printing */
-	header nav,
-	footer,
-	button:not([data-print]),
-	[data-no-print] {
-		display: none !important;
-	}
+@page {
+	size: Letter portrait;
+	margin: 2em;
+}
 
-	/* Layout adjustments */
-	body {
-		padding: 0 !important;
-		margin: 0 !important;
-		width: 100% !important;
-		max-width: none !important;
-	}
+/* avoid page breaks in awkward places */
+dt,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+summary {
+	page-break-after: avoid;
+}
 
-	main {
-		width: 100% !important;
-		padding: 0 !important;
-		margin: 0 !important;
-	}
+p {
+	orphans: var(--mourners);
+	widows: var(--mourners);
+}
 
-	/* Show URLs after links */
-	a[href]:after {
-		content: ' (' attr(href) ')';
-		font-size: 0.8em;
-		font-weight: normal;
-	}
+footer {
+	page-break-inside: avoid;
+}
 
-	/* Don't show URLs for internal or javascript links */
-	a[href^='/']:after,
-	a[href^='javascript:']:after,
-	a[href^='#']:after {
-		content: '';
-	}
+/* things to hide in print */
+.no-print,
+site-header,
+site-nav {
+	display: none;
+}
 
-	/* Page breaks */
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		page-break-after: avoid;
-		page-break-inside: avoid;
-	}
-
-	img {
-		page-break-inside: avoid;
-		max-width: 100% !important;
-	}
-
-	p,
-	blockquote,
-	dl,
-	figure,
-	table {
-		page-break-inside: avoid;
-	}
-
-	/* Manage orphans and widows */
-	p,
-	h2,
-	h3 {
-		orphans: 3;
-		widows: 3;
-	}
+/* print the URL for external links */
+.print-url,
+a[href^="https://"]:after
+{
+	content: ' (' attr(href) ')';
+	font-size: smaller;
 }
